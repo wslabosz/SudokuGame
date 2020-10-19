@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+./target/
+# Datasource local storage ignored files
+/../../../../../../../:\Projects\2rok\kompo\Laby\ZadanieLaboratoryjne\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
