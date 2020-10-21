@@ -4,7 +4,11 @@ import java.util.Random;
 
 public class SudokuBoard {
     public static final int SIZE = 9;
-    private final int[][] board = new int [SIZE][SIZE];
+    private final int[][] board = new int[SIZE][SIZE];
+
+    public int getNumberFromPosition(int xPos, int yPos) {
+        return board[xPos][yPos];
+    }
 
     public void generateNumbersOnBoard() {
         Random random = new Random();
@@ -13,7 +17,9 @@ public class SudokuBoard {
             if (board[positions[0]][positions[1]] == 0) {
                 board[positions[0]][positions[1]] = i;
             }
-            i--;
+            else {
+                i--;
+            }
         }
     }
 
@@ -62,11 +68,11 @@ public class SudokuBoard {
                     for (int number = 1; number <= SIZE; number++) {  //inserting numbers
                         if (sudokuRules(row, col, number)) {
                             board[row][col] = number;
-                        }
-                        if (fillBoard()) {
-                            return true;
-                        } else {
-                            board[row][col] = 0;
+                            if (fillBoard()) {
+                                return true;
+                            } else {
+                                board[row][col] = 0;
+                            }
                         }
                     }
                     return false;
@@ -74,5 +80,29 @@ public class SudokuBoard {
             }
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        final String HORIZONTAL_BREAK = "-------------------------\n";
+        stringBuilder.append(HORIZONTAL_BREAK);
+        for (int i = 0; i < 9; i++) {
+            if (i == 3 || i == 6) {
+                stringBuilder.append(HORIZONTAL_BREAK);
+            }
+            stringBuilder.append("| ");
+            for (int j = 0; j < 9; j++) {
+                stringBuilder.append(board[i][j])
+                        .append(" ");
+                if (j == 2 || j == 5) {
+                    stringBuilder.append("| ");
+                }
+            }
+            stringBuilder.append("|\n");
+
+        }
+        stringBuilder.append(HORIZONTAL_BREAK);
+        return stringBuilder.toString();
     }
 }
