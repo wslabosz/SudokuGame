@@ -1,13 +1,14 @@
 package project;
 
+import java.util.Arrays;
 import java.util.Random;
 
 public class SudokuBoard {
     public static final int SIZE = 9;
     private final int[][] board = new int[SIZE][SIZE];
 
-    public int getNumberFromPosition(int xPos, int yPos) {
-        return board[xPos][yPos];
+    public int getNumberFromPosition(int xpos, int ypos) {
+        return board[xpos][ypos];
     }
 
     public void generateNumbersOnBoard() {
@@ -16,8 +17,7 @@ public class SudokuBoard {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
             if (board[positions[0]][positions[1]] == 0) {
                 board[positions[0]][positions[1]] = i;
-            }
-            else {
+            } else {
                 i--;
             }
         }
@@ -48,6 +48,7 @@ public class SudokuBoard {
         int columns = col - col % 3;
         for (int i = rows; i < rows + 3; i++) {
             for (int j = columns; j < columns + 3; j++) {
+                //checking if the plausible number is already in column
                 if (board[i][j] == number) {
                     return true;
                 }
@@ -61,14 +62,22 @@ public class SudokuBoard {
                 && !boxEligibility(row, col, number);
     }
 
-    public boolean fillBoard() {
+    public void fillBoard() {
+        for (int[] row:board) {
+            Arrays.fill(row, 0);
+        }
+        generateNumbersOnBoard();
+        solve();
+    }
+
+    private boolean solve() {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 if (board[row][col] == 0) {
                     for (int number = 1; number <= SIZE; number++) {  //inserting numbers
                         if (sudokuRules(row, col, number)) {
                             board[row][col] = number;
-                            if (fillBoard()) {
+                            if (solve()) {
                                 return true;
                             } else {
                                 board[row][col] = 0;
@@ -85,11 +94,11 @@ public class SudokuBoard {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        final String HORIZONTAL_BREAK = "-------------------------\n";
-        stringBuilder.append(HORIZONTAL_BREAK);
+        final String horizontalBreak = "=========================\n";
+        stringBuilder.append(horizontalBreak);
         for (int i = 0; i < 9; i++) {
             if (i == 3 || i == 6) {
-                stringBuilder.append(HORIZONTAL_BREAK);
+                stringBuilder.append(horizontalBreak);
             }
             stringBuilder.append("| ");
             for (int j = 0; j < 9; j++) {
@@ -102,7 +111,7 @@ public class SudokuBoard {
             stringBuilder.append("|\n");
 
         }
-        stringBuilder.append(HORIZONTAL_BREAK);
+        stringBuilder.append(horizontalBreak);
         return stringBuilder.toString();
     }
 }
