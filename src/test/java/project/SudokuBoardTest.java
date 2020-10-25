@@ -18,7 +18,6 @@ class SudokuBoardTest {
             for (int j = 0; j < 9; j++) {
                 set_rows.add(sudoku.getNumberFromPosition(i,j));
                 set_cols.add(sudoku.getNumberFromPosition(j,i));
-                set_boxes.add(sudoku.getNumberFromPosition(j / 3, j % 3));
             }
             assertEquals(set_rows.size(),9);
             assertEquals(set_cols.size(),9);

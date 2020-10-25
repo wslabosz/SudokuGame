@@ -13,7 +13,7 @@ public class SudokuBoard {
 
     public void generateNumbersOnBoard() {
         Random random = new Random();
-        for (int i = 1; i <= 8; i++) {
+        for (int i = 1; i <= 9; i++) {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
             if (board[positions[0]][positions[1]] == 0) {
                 board[positions[0]][positions[1]] = i;
@@ -94,11 +94,11 @@ public class SudokuBoard {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        final String horizontalBreak = "=========================\n";
-        stringBuilder.append(horizontalBreak);
+        final String border = "=========================\n";
+        stringBuilder.append(border);
         for (int i = 0; i < 9; i++) {
             if (i == 3 || i == 6) {
-                stringBuilder.append(horizontalBreak);
+                stringBuilder.append(border);
             }
             stringBuilder.append("| ");
             for (int j = 0; j < 9; j++) {
@@ -111,7 +111,7 @@ public class SudokuBoard {
             stringBuilder.append("|\n");
 
         }
-        stringBuilder.append(horizontalBreak);
+        stringBuilder.append(border);
         return stringBuilder.toString();
     }
 }
