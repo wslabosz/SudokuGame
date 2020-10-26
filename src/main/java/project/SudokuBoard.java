@@ -75,38 +75,9 @@ public class SudokuBoard {
                 && !boxEligibility(row, col, number);
     }
 
-    public void fillBoard() {
-        for (int[] row:board) {
-            Arrays.fill(row, 0);
-        }
-        solve();
+    public void solveGame() {
+        sudokuSolver.solve(this);
     }
-
-    private boolean solve() {
-        for (int row = 0; row < SIZE; row++) {
-            for (int col = 0; col < SIZE; col++) {
-                if (board[row][col] == 0) {
-                    for (int i = 0; i < SIZE; i++) {  //inserting numbers
-                        // zadeklarowac tablice mieszac i wpisywac za generowanie
-                        Integer[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-                        List<Integer> randomizedNumbers = Arrays.asList(numbers);
-                        Collections.shuffle(randomizedNumbers);
-                        if (sudokuRules(row, col, randomizedNumbers.get(i))) {
-                            board[row][col] = randomizedNumbers.get(i);
-                            if (solve()) {
-                                return true;
-                            } else {
-                                board[row][col] = 0;
-                            }
-                        }
-                    }
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
 
     @Override
     public String toString() {

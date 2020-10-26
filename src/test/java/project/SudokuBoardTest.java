@@ -13,7 +13,7 @@ class SudokuBoardTest {
     @Test
     void fillBoard() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
-        sudoku.fillBoard();
+        sudoku.solveGame();
         Set<Integer> set_rows = new HashSet<>();
         Set<Integer> set_cols = new HashSet<>();
         Set<Integer> set_boxes = new HashSet<>();
@@ -42,8 +42,8 @@ class SudokuBoardTest {
     void randomizedBoardCheck() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuBoard sudoku2 = new SudokuBoard(new BacktrackingSudokuSolver());
-        sudoku.fillBoard();
-        sudoku2.fillBoard();
+        sudoku.solveGame();
+        sudoku2.solveGame();
 
         int[] su1 = new int [81];
         int[] su2 = new int [81];
@@ -60,7 +60,7 @@ class SudokuBoardTest {
     @Test
     void SudokuCheck() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
-        sudoku.fillBoard();
+        sudoku.solveGame();
         System.out.println(sudoku.toString());
     }
 
