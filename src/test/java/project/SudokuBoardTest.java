@@ -63,4 +63,18 @@ class SudokuBoardTest {
         sudoku.fillBoard();
         System.out.println(sudoku.toString());
     }
+
+    @Test
+    void setNumber() {
+        SudokuBoard s = new SudokuBoard();
+        s.setNumber(3,3,9);
+        assertEquals(s.getNumberFromPosition(3,3), 9);
+        for (int i = 0; i < 9; i++) {
+            if (i == 3 ) { continue; }
+            for (int j = 0; j < 9; j++) {
+                if (j == 3) { continue; }
+                assertEquals(s.getNumberFromPosition(i,j), 0);
+            }
+        }
+    }
 }
