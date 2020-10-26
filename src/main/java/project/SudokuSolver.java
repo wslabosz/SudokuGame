@@ -1,5 +1,5 @@
 package project;
 
-public interface SudokuSolver {
-
+interface SudokuSolver {
+    public void solve(SudokuBoard board);
 }
