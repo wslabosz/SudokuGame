@@ -11,7 +11,7 @@ public class SudokuBoard {
         return board[xpos][ypos];
     }
 
-    public void setNumber(int xpos,int ypos, int number){
+    public void setNumber(int xpos,int ypos, int number) {
         // can implement exception
         if (number > 0 && number < 10) {
             if (board[xpos][ypos] == 0) {
@@ -20,7 +20,7 @@ public class SudokuBoard {
         }
     }
 
-    public void generateNumbersOnBoard() {
+    private void generateNumbersOnBoard() {
         Random random = new Random();
         for (int i = 1; i <= 9; i++) {
             int[] positions = {random.nextInt(8), random.nextInt(8)};
@@ -84,6 +84,7 @@ public class SudokuBoard {
             for (int col = 0; col < SIZE; col++) {
                 if (board[row][col] == 0) {
                     for (int number = 1; number <= SIZE; number++) {  //inserting numbers
+                        // zadeklarowac tablice mieszac i wpisywac za generowanie
                         if (sudokuRules(row, col, number)) {
                             board[row][col] = number;
                             if (solve()) {

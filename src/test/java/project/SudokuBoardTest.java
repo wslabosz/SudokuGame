@@ -1,9 +1,12 @@
 package project;
 
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
+import static project.SudokuBoard.SIZE;
 
 class SudokuBoardTest {
 
@@ -38,11 +41,20 @@ class SudokuBoardTest {
     @Test
     void randomizedBoardCheck() {
         SudokuBoard sudoku = new SudokuBoard();
+        SudokuBoard sudoku2 = new SudokuBoard();
         sudoku.fillBoard();
-        String first = sudoku.toString();
-        sudoku.fillBoard();
-        String second = sudoku.toString();
+        sudoku2.fillBoard();
 
-        assertNotEquals(first,second);
+        int[] su1 = new int [81];
+        int[] su2 = new int [81];
+        int m = 0;
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                su1[m] = sudoku.getNumberFromPosition(i, j);
+                su2[m] = sudoku2.getNumberFromPosition(i, j);
+                m++;
+            }
+        }
+        assertFalse(Arrays.equals(su1, su2));
     }
 }
