@@ -11,6 +11,15 @@ public class SudokuBoard {
         return board[xpos][ypos];
     }
 
+    public void setNumber(int xpos,int ypos, int number){
+        // can implement exception
+        if (number > 0 && number < 10) {
+            if (board[xpos][ypos] == 0) {
+                board[xpos][ypos] = number;
+            }
+        }
+    }
+
     public void generateNumbersOnBoard() {
         Random random = new Random();
         for (int i = 1; i <= 9; i++) {
