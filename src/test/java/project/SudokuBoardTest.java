@@ -67,8 +67,16 @@ class SudokuBoardTest {
     @Test
     void setNumber() {
         SudokuBoard s = new SudokuBoard();
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                assertEquals(s.getNumberFromPosition(i,j), 0);
+            }
+        }
+
         s.setNumber(3,3,9);
         assertEquals(s.getNumberFromPosition(3,3), 9);
+
         for (int i = 0; i < 9; i++) {
             if (i == 3 ) { continue; }
             for (int j = 0; j < 9; j++) {
