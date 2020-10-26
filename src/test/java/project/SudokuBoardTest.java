@@ -84,5 +84,10 @@ class SudokuBoardTest {
                 assertEquals(s.getNumberFromPosition(i,j), 0);
             }
         }
+
+        s.setNumber(4,4,11);
+        assertEquals(s.getNumberFromPosition(4,4), 0);
+        s.setNumber(3,7,-34);
+        assertEquals(s.getNumberFromPosition(3,7), 0);
     }
 }
