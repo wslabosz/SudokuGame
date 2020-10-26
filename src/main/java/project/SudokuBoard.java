@@ -1,7 +1,5 @@
 package project;
 
-import java.util.*;
-
 public class SudokuBoard {
     public static final int SIZE = 9;
     private final int[][] board = new int[SIZE][SIZE];
@@ -15,26 +13,12 @@ public class SudokuBoard {
         return board[xpos][ypos];
     }
 
-    public void setNumber(int xpos,int ypos, int number) {
+    public void setNumber(int xpos, int ypos, int number) {
         // can implement exception
-        if (number > 0 && number < 10) {
-            if (board[xpos][ypos] == 0) {
-                board[xpos][ypos] = number;
-            }
+        if (number >= 0 && number < 10) {
+            board[xpos][ypos] = number;
         }
     }
-
-//    private void generateNumbersOnBoard() {
-//        Random random = new Random();
-//        for (int i = 1; i <= 9; i++) {
-//            int[] positions = {random.nextInt(8), random.nextInt(8)};
-//            if (board[positions[0]][positions[1]] == 0) {
-//                board[positions[0]][positions[1]] = i;
-//            } else {
-//                i--;
-//            }
-//        }
-//    }
 
     private boolean rowEligibility(int row, int number) {
         for (int i = 0; i < SIZE; i++) {
