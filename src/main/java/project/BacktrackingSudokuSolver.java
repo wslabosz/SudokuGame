@@ -18,7 +18,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
     }
 
     @Override
-    public void solve(SudokuBoard board) {
+    public void solveGame(SudokuBoard board) {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 if (board.getNumberFromPosition(row, col) == 0) {
@@ -29,7 +29,8 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
                         Collections.shuffle(randomizedNumbers);
                         if (board.sudokuRules(row, col, randomizedNumbers.get(i))) {
                             board.setNumber(row, col, randomizedNumbers.get(i));
-//                            if (solve(board)) {
+                            solveGame(board);
+//                            if (solveGame(board)) {
 //                                return true;
 //                            } else {
                             board.setNumber(row, col, 0);
