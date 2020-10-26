@@ -1,7 +1,6 @@
 package project;
 
-import java.util.Arrays;
-import java.util.Random;
+import java.util.*;
 
 public class SudokuBoard {
     public static final int SIZE = 9;
@@ -20,17 +19,17 @@ public class SudokuBoard {
         }
     }
 
-    private void generateNumbersOnBoard() {
-        Random random = new Random();
-        for (int i = 1; i <= 9; i++) {
-            int[] positions = {random.nextInt(8), random.nextInt(8)};
-            if (board[positions[0]][positions[1]] == 0) {
-                board[positions[0]][positions[1]] = i;
-            } else {
-                i--;
-            }
-        }
-    }
+//    private void generateNumbersOnBoard() {
+//        Random random = new Random();
+//        for (int i = 1; i <= 9; i++) {
+//            int[] positions = {random.nextInt(8), random.nextInt(8)};
+//            if (board[positions[0]][positions[1]] == 0) {
+//                board[positions[0]][positions[1]] = i;
+//            } else {
+//                i--;
+//            }
+//        }
+//    }
 
     private boolean rowEligibility(int row, int number) {
         for (int i = 0; i < SIZE; i++) {
@@ -75,7 +74,6 @@ public class SudokuBoard {
         for (int[] row:board) {
             Arrays.fill(row, 0);
         }
-        generateNumbersOnBoard();
         solve();
     }
 
@@ -83,10 +81,13 @@ public class SudokuBoard {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 if (board[row][col] == 0) {
-                    for (int number = 1; number <= SIZE; number++) {  //inserting numbers
+                    for (int i = 0; i < SIZE; i++) {  //inserting numbers
                         // zadeklarowac tablice mieszac i wpisywac za generowanie
-                        if (sudokuRules(row, col, number)) {
-                            board[row][col] = number;
+                        Integer[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+                        List<Integer> randomizedNumbers = Arrays.asList(numbers);
+                        Collections.shuffle(randomizedNumbers);
+                        if (sudokuRules(row, col, randomizedNumbers.get(i))) {
+                            board[row][col] = randomizedNumbers.get(i);
                             if (solve()) {
                                 return true;
                             } else {
@@ -100,6 +101,7 @@ public class SudokuBoard {
         }
         return true;
     }
+
 
     @Override
     public String toString() {

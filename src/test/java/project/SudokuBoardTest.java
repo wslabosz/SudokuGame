@@ -57,4 +57,10 @@ class SudokuBoardTest {
         }
         assertFalse(Arrays.equals(su1, su2));
     }
+    @Test
+    void SudokuCheck() {
+        SudokuBoard sudoku = new SudokuBoard();
+        sudoku.fillBoard();
+        System.out.println(sudoku.toString());
+    }
 }
