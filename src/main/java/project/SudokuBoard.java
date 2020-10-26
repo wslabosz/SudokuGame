@@ -7,9 +7,10 @@ public class SudokuBoard {
     private final int[][] board = new int[SIZE][SIZE];
     private final SudokuSolver sudokuSolver;
 
-    public SudokuBoard(SudokuSolver sudokusolver) {
+    public SudokuBoard(SudokuSolver sudokuSolver) {
         this.sudokuSolver = sudokuSolver;
     }
+
     public int getNumberFromPosition(int xpos, int ypos) {
         return board[xpos][ypos];
     }
