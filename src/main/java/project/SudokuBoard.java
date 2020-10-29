@@ -1,5 +1,8 @@
 package project;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class SudokuBoard {
     public static final int SIZE = 9;
     private final int[][] board = new int[SIZE][SIZE];
@@ -20,43 +23,35 @@ public class SudokuBoard {
         }
     }
 
-    private boolean rowEligibility(int row, int number) {
-        for (int i = 0; i < SIZE; i++) {
-            //checking if the plausible number is already in row
-            if (board[row][i] == number) {
-                return true;
+    public boolean checkSudokuRegularity() {
+        Set<Integer> setRows = new HashSet<>();
+        Set<Integer> setCols = new HashSet<>();
+        Set<Integer> setBoxes = new HashSet<>();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                setRows.add(getNumberFromPosition(i,j));
+                setCols.add(getNumberFromPosition(j,i));
+            }
+            if (setRows.size() == SIZE && setCols.size() == SIZE) {
+                setRows.clear();
+                setCols.clear();
+            } else {
+                return false;
             }
         }
-        return false;
-    }
-
-    private boolean colEligibility(int col, int number) {
-        for (int i = 0; i < SIZE; i++) {
-            //checking if the plausible number is already in column
-            if (board[i][col] == number) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean boxEligibility(int row, int col, int number) {
-        int rows = row - row % 3;
-        int columns = col - col % 3;
-        for (int i = rows; i < rows + 3; i++) {
-            for (int j = columns; j < columns + 3; j++) {
-                //checking if the plausible number is already in column
-                if (board[i][j] == number) {
-                    return true;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 3; j++) {
+                for (int k = 0; k < 3; k++) {
+                    setBoxes.add(getNumberFromPosition(3 * (i / 3) + j, 3 * (i % 3) + k));
                 }
             }
+            if (setBoxes.size() == SIZE) {
+                setBoxes.clear();
+            } else {
+                return false;
+            }
         }
-        return false;
-    }
-
-    public boolean sudokuRules(int row, int col, int number) {
-        return !rowEligibility(row, number) && !colEligibility(col, number)
-                && !boxEligibility(row, col, number);
+        return true;
     }
 
     public void solveGame() {
