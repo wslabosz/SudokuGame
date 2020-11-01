@@ -1,8 +1,9 @@
 package project;
 
 import org.junit.jupiter.api.Test;
-
 import java.util.Arrays;
+import java.util.InputMismatchException;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static project.SudokuBoard.SIZE;
 
@@ -12,7 +13,24 @@ class SudokuBoardTest {
     void checkingSudokuRegularity() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku.solveGame();
-        assertTrue(sudoku.checkSudokuRegularity());
+        assertTrue(sudoku.checkRowRegularity());
+        assertTrue(sudoku.checkColRegularity());
+        assertTrue(sudoku.checkBoxRegularity());
+
+        SudokuBoard sudoku2 = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudoku2.setNumber(5,5,1);
+        sudoku2.setNumber(6,5,1);
+        assertFalse(sudoku2.checkRowRegularity());
+
+        SudokuBoard sudoku3 = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudoku3.setNumber(0,5,1);
+        sudoku3.setNumber(0,6,1);
+        assertFalse(sudoku3.checkColRegularity());
+
+        SudokuBoard sudoku4 = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudoku3.setNumber(0,0,1);
+        sudoku3.setNumber(2,2,1);
+        assertFalse(sudoku3.checkBoxRegularity());
     }
 
     @Test
@@ -61,10 +79,25 @@ class SudokuBoardTest {
                 assertEquals(s.getNumberFromPosition(i,j), 0);
             }
         }
+    }
 
-        s.setNumber(4,4,11);
-        assertEquals(s.getNumberFromPosition(4,4), 0);
-        s.setNumber(3,7,-34);
-        assertEquals(s.getNumberFromPosition(3,7), 0);
+    @Test
+    void setNumberExceptions(){
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        try {
+            board.setNumber(0, 0, 159);
+        } catch (InputMismatchException ex) {
+            assertEquals(ex.getMessage(), "Number must be in range from 0 to 9");
+        }
+        try {
+            board.setNumber(0,0, -159);
+        } catch (InputMismatchException ex) {
+            assertEquals(ex.getMessage(), "Number must be in range from 0 to 9");
+        }
+        try {
+            board.setNumber(100, 100, 5);
+        } catch (IndexOutOfBoundsException ex) {
+            assertEquals(ex.getMessage(), "Index out of bounds");
+        }
     }
 }

@@ -1,6 +1,7 @@
 package project;
 
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.Set;
 
 public class SudokuBoard {
@@ -17,28 +18,50 @@ public class SudokuBoard {
     }
 
     public void setNumber(int xpos, int ypos, int number) {
-        // can implement exception
-        if (number >= 0 && number < 10) {
-            board[xpos][ypos] = number;
+        //exception
+        try {
+            if (number < 0 || number > 9) {
+                throw new InputMismatchException("Number must be in range from 0 to 9");
+            } else {
+                board[xpos][ypos] = number;
+            }
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
-    public boolean checkSudokuRegularity() {
+    public boolean checkRowRegularity() {
         Set<Integer> setRows = new HashSet<>();
-        Set<Integer> setCols = new HashSet<>();
-        Set<Integer> setBoxes = new HashSet<>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                setRows.add(getNumberFromPosition(i,j));
-                setCols.add(getNumberFromPosition(j,i));
+                setRows.add(getNumberFromPosition(i, j));
             }
-            if (setRows.size() == SIZE && setCols.size() == SIZE) {
+            if (setRows.size() == SIZE) {
                 setRows.clear();
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkColRegularity() {
+        Set<Integer> setCols = new HashSet<>();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                setCols.add(getNumberFromPosition(j, i));
+            }
+            if (setCols.size() == SIZE) {
                 setCols.clear();
             } else {
                 return false;
             }
         }
+        return true;
+    }
+
+    public boolean checkBoxRegularity() {
+        Set<Integer> setBoxes = new HashSet<>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
                 for (int k = 0; k < 3; k++) {
