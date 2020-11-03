@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class SudokuBoard {
     public static final int SIZE = 9;
-    private final int[][] board = new int[SIZE][SIZE];
+    private final SudokuField [][] board = new SudokuField[SIZE][SIZE];
     private final SudokuSolver sudokuSolver;
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
@@ -14,17 +14,13 @@ public class SudokuBoard {
     }
 
     public int getNumberFromPosition(int xpos, int ypos) {
-        return board[xpos][ypos];
+        return board[xpos][ypos].getFieldValue();
     }
 
     public void setNumber(int xpos, int ypos, int number) {
         //exception
         try {
-            if (number < 0 || number > 9) {
-                throw new InputMismatchException("Number must be in range from 0 to 9");
-            } else {
-                board[xpos][ypos] = number;
-            }
+            board[xpos][ypos].setFieldValue(number);
         } catch (IndexOutOfBoundsException ex) {
             System.out.println(ex.getMessage());
         }
