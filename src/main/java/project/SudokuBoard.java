@@ -1,7 +1,6 @@
 package project;
 
 import java.util.HashSet;
-import java.util.InputMismatchException;
 import java.util.Set;
 
 public class SudokuBoard {
@@ -24,6 +23,12 @@ public class SudokuBoard {
         } catch (IndexOutOfBoundsException ex) {
             System.out.println(ex.getMessage());
         }
+    }
+
+    public SudokuRow getRow(int row) {
+        SudokuField[] field = new SudokuField[SIZE];
+        System.arraycopy(board[row], 0, field, 0, SIZE);
+        return new SudokuRow(field);
     }
 
     public boolean checkRowRegularity() {

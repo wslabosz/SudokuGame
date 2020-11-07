@@ -5,7 +5,7 @@ import java.util.InputMismatchException;
 public class SudokuField {
     private int value;
 
-    public SudokuField(int value){
+    public SudokuField(int value) {
         this.value = value;
     }
 
