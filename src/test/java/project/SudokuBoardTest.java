@@ -13,24 +13,22 @@ class SudokuBoardTest {
     void checkingSudokuRegularity() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku.solveGame();
-        assertTrue(sudoku.checkRowRegularity());
-        assertTrue(sudoku.checkColRegularity());
-        assertTrue(sudoku.checkBoxRegularity());
+        assertTrue(sudoku.checkBoard());
 
         SudokuBoard sudoku2 = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku2.setNumber(5,5,1);
         sudoku2.setNumber(6,5,1);
-        assertFalse(sudoku2.checkRowRegularity());
+        assertFalse(sudoku2.checkBoard());
 
         SudokuBoard sudoku3 = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku3.setNumber(0,5,1);
         sudoku3.setNumber(0,6,1);
-        assertFalse(sudoku3.checkColRegularity());
+        assertFalse(sudoku3.checkBoard());
 
         SudokuBoard sudoku4 = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku3.setNumber(0,0,1);
         sudoku3.setNumber(2,2,1);
-        assertFalse(sudoku3.checkBoxRegularity());
+        assertFalse(sudoku3.checkBoard());
     }
 
     @Test

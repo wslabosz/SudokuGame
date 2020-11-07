@@ -3,7 +3,7 @@ package project;
 import java.util.InputMismatchException;
 
 public class SudokuField {
-    private int value;
+    private int value = 0;
 
     public SudokuField(int value) {
         this.value = value;

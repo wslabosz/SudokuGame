@@ -26,12 +26,33 @@ public class SudokuBoard {
     }
 
     public SudokuRow getRow(int row) {
-        SudokuField[] field = new SudokuField[SIZE];
-        System.arraycopy(board[row], 0, field, 0, SIZE);
-        return new SudokuRow(field);
+        SudokuField[] fields = new SudokuField[SIZE];
+        System.arraycopy(board[row], 0, fields, 0, SIZE);
+        return new SudokuRow(fields);
     }
 
-    public boolean checkRowRegularity() {
+    public SudokuColumn getColumn(int column) {
+        SudokuField[] fields = new SudokuField[SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            fields[i] = board[i][column];
+        }
+        return new SudokuColumn(fields);
+    }
+
+    public SudokuBox getBox(int row, int column) {
+        SudokuField[] fields = new SudokuField[SIZE];
+        int rows = row - row % 3;
+        int columns = column - column % 3;
+        int index = 0;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                fields[index] = board[rows + i][columns + j];
+            }
+        }
+        return new SudokuBox(fields);
+    }
+
+    private boolean checkRowRegularity() {
         Set<Integer> setRows = new HashSet<>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -46,7 +67,7 @@ public class SudokuBoard {
         return true;
     }
 
-    public boolean checkColRegularity() {
+    private boolean checkColRegularity() {
         Set<Integer> setCols = new HashSet<>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -61,7 +82,7 @@ public class SudokuBoard {
         return true;
     }
 
-    public boolean checkBoxRegularity() {
+    private boolean checkBoxRegularity() {
         Set<Integer> setBoxes = new HashSet<>();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 3; j++) {
@@ -76,6 +97,10 @@ public class SudokuBoard {
             }
         }
         return true;
+    }
+
+    boolean checkBoard() {
+        return checkBoxRegularity() && checkColRegularity() && checkRowRegularity();
     }
 
     public void solveGame() {
