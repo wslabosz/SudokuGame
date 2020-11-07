@@ -9,6 +9,11 @@ public class SudokuBoard {
     private final SudokuSolver sudokuSolver;
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                this.board[i][j] = new SudokuField(0);
+            }
+        }
         this.sudokuSolver = sudokuSolver;
     }
 
@@ -46,7 +51,7 @@ public class SudokuBoard {
         int index = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                fields[index] = board[rows + i][columns + j];
+                fields[index++] = board[rows + i][columns + j];
             }
         }
         return new SudokuBox(fields);
@@ -99,12 +104,13 @@ public class SudokuBoard {
         return true;
     }
 
-    boolean checkBoard() {
+    private boolean checkBoard() {
         return checkBoxRegularity() && checkColRegularity() && checkRowRegularity();
     }
 
     public void solveGame() {
         sudokuSolver.solve(this);
+        this.checkBoard();
     }
 
     @Override
@@ -118,7 +124,7 @@ public class SudokuBoard {
             }
             stringBuilder.append("| ");
             for (int j = 0; j < 9; j++) {
-                stringBuilder.append(board[i][j])
+                stringBuilder.append(this.board[i][j].getFieldValue())
                         .append(" ");
                 if (j == 2 || j == 5) {
                     stringBuilder.append("| ");

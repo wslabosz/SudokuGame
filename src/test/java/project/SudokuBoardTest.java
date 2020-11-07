@@ -13,22 +13,17 @@ class SudokuBoardTest {
     void checkingSudokuRegularity() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku.solveGame();
-        assertTrue(sudoku.checkBoard());
-
-        SudokuBoard sudoku2 = new SudokuBoard(new BacktrackingSudokuSolver());
-        sudoku2.setNumber(5,5,1);
-        sudoku2.setNumber(6,5,1);
-        assertFalse(sudoku2.checkBoard());
-
-        SudokuBoard sudoku3 = new SudokuBoard(new BacktrackingSudokuSolver());
-        sudoku3.setNumber(0,5,1);
-        sudoku3.setNumber(0,6,1);
-        assertFalse(sudoku3.checkBoard());
-
-        SudokuBoard sudoku4 = new SudokuBoard(new BacktrackingSudokuSolver());
-        sudoku3.setNumber(0,0,1);
-        sudoku3.setNumber(2,2,1);
-        assertFalse(sudoku3.checkBoard());
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                assertTrue(sudoku.getColumn(j).verify());
+            }
+            assertTrue(sudoku.getRow(i).verify());
+        }
+        for (int i = 0; i < 9; i += 3) {
+            for (int j = 0; j < 9; j += 3) {
+                assertTrue(sudoku.getBox(i, j).verify());
+            }
+        }
     }
 
     @Test
@@ -98,4 +93,6 @@ class SudokuBoardTest {
             assertEquals(ex.getMessage(), "Index out of bounds");
         }
     }
+
+
 }
