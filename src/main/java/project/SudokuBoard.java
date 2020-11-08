@@ -1,17 +1,19 @@
 package project;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
-public class SudokuBoard {
+public class SudokuBoard implements PropertyChangeListener {
     public static final int SIZE = 9;
     private final SudokuField [][] board = new SudokuField[SIZE][SIZE];
     private final SudokuSolver sudokuSolver;
+    private boolean doListen = false;
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 this.board[i][j] = new SudokuField(0);
+                this.board[i][j].addPropertyChangeListener(this);
             }
         }
         this.sudokuSolver = sudokuSolver;
@@ -57,55 +59,24 @@ public class SudokuBoard {
         return new SudokuBox(fields);
     }
 
-    private boolean checkRowRegularity() {
-        Set<Integer> setRows = new HashSet<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                setRows.add(getNumberFromPosition(i, j));
-            }
-            if (setRows.size() == SIZE) {
-                setRows.clear();
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean checkColRegularity() {
-        Set<Integer> setCols = new HashSet<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                setCols.add(getNumberFromPosition(j, i));
-            }
-            if (setCols.size() == SIZE) {
-                setCols.clear();
-            } else {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private boolean checkBoxRegularity() {
-        Set<Integer> setBoxes = new HashSet<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 3; k++) {
-                    setBoxes.add(getNumberFromPosition(3 * (i / 3) + j, 3 * (i % 3) + k));
-                }
-            }
-            if (setBoxes.size() == SIZE) {
-                setBoxes.clear();
-            } else {
-                return false;
-            }
-        }
-        return true;
+    public void setListening(boolean val) {
+        doListen = val;
     }
 
     private boolean checkBoard() {
-        return checkBoxRegularity() && checkColRegularity() && checkRowRegularity();
+        for (int i = 0; i < 9; i++) {
+            if (!getColumn(i).verify() || !getRow(i).verify()) {
+                return false;
+            }
+        }
+        for (int i = 0; i < 9; i += 3) {
+            for (int j = 0; j < 9; j += 3) {
+                if (!getBox(i, j).verify()) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void solveGame() {
@@ -136,4 +107,14 @@ public class SudokuBoard {
         stringBuilder.append(border);
         return stringBuilder.toString();
     }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (doListen) {
+            if (!checkBoard()) {
+                System.out.println("Wrong number inserted!");
+            }
+        }
+    }
+
 }
