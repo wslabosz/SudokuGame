@@ -1,6 +1,9 @@
 package project;
 
 import org.junit.jupiter.api.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
@@ -49,7 +52,18 @@ class SudokuBoardTest {
     void SudokuCheck() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku.setListening(true);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+
+        PrintStream old = System.out;
+        System.setOut(ps);
         sudoku.solveGame();
+        System.out.flush();
+        System.setOut(old);
+
+        assertTrue(baos.toString().length() > 0);
+
         System.out.println(sudoku.toString());
     }
 
