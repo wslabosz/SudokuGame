@@ -48,6 +48,7 @@ class SudokuBoardTest {
     @Test
     void SudokuCheck() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
+        sudoku.setListening(true);
         sudoku.solveGame();
         System.out.println(sudoku.toString());
     }
