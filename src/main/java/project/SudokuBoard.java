@@ -56,9 +56,9 @@ public class SudokuBoard implements PropertyChangeListener {
         int rows = row - row % 3;
         int columns = column - column % 3;
         int index = 0;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                fields[index++] = board.get(9 * rows + i + columns + j);
+        for (int i = rows; i < rows + 3; i++) {
+            for (int j = columns; j < columns + 3; j++) {
+                fields[index++] = board.get(i * 9 + j);
             }
         }
         return new SudokuBox(Arrays.asList(fields));
@@ -116,8 +116,12 @@ public class SudokuBoard implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         if (doListen) {
-            if (!checkBoard()) {
-                throw new WrongFieldValueSudokuException("Inserted invalid value");
+            try {
+                if (!checkBoard()) {
+                    throw new WrongFieldValueSudokuException("Inserted invalid value");
+                }
+            } catch (WrongFieldValueSudokuException ex) {
+                ex.getMessage();
             }
         }
     }
