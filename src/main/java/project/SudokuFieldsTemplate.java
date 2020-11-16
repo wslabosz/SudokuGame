@@ -1,12 +1,13 @@
 package project;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public abstract class SudokuFieldsTemplate {
-    protected SudokuField[] fields;
+    protected List<SudokuField> fields;
 
-    public SudokuFieldsTemplate(final SudokuField[] fields) {
+    public SudokuFieldsTemplate(final List<SudokuField> fields) {
         this.fields = fields;
     }
 

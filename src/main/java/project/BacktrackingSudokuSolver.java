@@ -8,16 +8,15 @@ import java.util.List;
 
 public class BacktrackingSudokuSolver implements SudokuSolver {
 
-    private static final Integer[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9};
-    private static final List<Integer> randomizedNumbers = Arrays.asList(numbers);
 
     @Override
     public void solve(SudokuBoard board) {
+        List<Integer> randomizedNumbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9);
         Collections.shuffle(randomizedNumbers);
-        solution(board);
+        solution(board, randomizedNumbers);
     }
 
-    private boolean solution(SudokuBoard board) {
+    private boolean solution(SudokuBoard board, List<Integer> randomizedNumbers) {
         for (int row = 0; row < SIZE; row++) {
             for (int col = 0; col < SIZE; col++) {
                 if (board.getNumberFromPosition(row, col) == 0) {
@@ -26,7 +25,7 @@ public class BacktrackingSudokuSolver implements SudokuSolver {
                         board.setNumber(row, col, randomizedNumbers.get(i));
                         if (board.getRow(row).verify() && board.getColumn(col).verify()
                                 && board.getBox(row, col).verify()) {
-                            if (solution(board)) {
+                            if (solution(board, randomizedNumbers)) {
                                 return true;
                             }
                         } else {

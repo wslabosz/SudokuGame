@@ -1,7 +1,9 @@
 package project;
 
+import java.util.List;
+
 public class SudokuRow extends SudokuFieldsTemplate {
-    public SudokuRow(final SudokuField[] fields) {
+    public SudokuRow(final List<SudokuField> fields) {
         super(fields);
     }
 }
