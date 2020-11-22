@@ -1,5 +1,6 @@
 package project;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -27,6 +28,13 @@ public class SudokuField {
 
     public void addPropertyChangeListener(PropertyChangeListener pcl) {
         propertySupport.addPropertyChangeListener(pcl);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("value", value)
+                .toString();
     }
 
     @Override

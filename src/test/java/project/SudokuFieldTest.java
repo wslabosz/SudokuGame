@@ -28,4 +28,11 @@ class SudokuFieldTest {
         assertEquals(field1.hashCode(),field2.hashCode());
         assertNotEquals(field1.hashCode(),field0.hashCode());
     }
+
+    @Test
+    void testToString() {
+        SudokuField field1 = new SudokuField(1);
+        String toString = field1.toString();
+        assertTrue(toString.matches("SudokuField\\{[a-z=0-9]*?\\}"));
+    }
 }

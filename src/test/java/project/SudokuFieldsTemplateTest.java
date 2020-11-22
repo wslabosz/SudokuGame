@@ -68,7 +68,6 @@ class SudokuFieldsTemplateTest {
         }
         SudokuRow row1 = new SudokuRow(Arrays.asList(fields));
         String toString = row1.toString();
-        System.out.println(toString);
-        assertTrue(toString.matches("SudokuRow\\{fields=\\[[a-z\\.\\s\\,@0-9A-Z]*?\\]\\}"));
+        assertTrue(toString.matches("SudokuRow\\{fields=\\[[a-zA-Z\\{a-z=0-9\\}\\,\\s]*?\\]\\}"));
     }
 }
