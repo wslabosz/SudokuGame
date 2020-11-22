@@ -1,6 +1,9 @@
 package project;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.InputMismatchException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,5 +37,16 @@ class SudokuFieldTest {
         SudokuField field1 = new SudokuField(1);
         String toString = field1.toString();
         assertTrue(toString.matches("SudokuField\\{[a-z=0-9]*?\\}"));
+    }
+
+    @Test
+    public void setWrongFieldValueTest() {
+        SudokuField field = new SudokuField(0);
+        Assertions.assertThrows(InputMismatchException.class, () -> {
+            field.setFieldValue(-1);
+        });
+        Assertions.assertThrows(InputMismatchException.class, () -> {
+            field.setFieldValue(10);
+        });
     }
 }

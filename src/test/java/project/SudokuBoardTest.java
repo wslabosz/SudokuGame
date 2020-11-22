@@ -54,6 +54,7 @@ class SudokuBoardTest {
         } catch (WrongFieldValueSudokuException ex) {
             assertEquals(ex.getMessage(), "Inserted invalid value");
         }
+        assertNotNull(sudoku.toString());
         System.out.println(sudoku.toString());
     }
 
@@ -130,5 +131,26 @@ class SudokuBoardTest {
         assertEquals(board1.hashCode(),board2.hashCode());
         assertNotEquals(board1.hashCode(),board3.hashCode());
         assertNotEquals(board1.hashCode(),board4.hashCode());
+    }
+
+    @Test
+    void getRow() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard board = new SudokuBoard(solver);
+        assertNotNull(board.getRow(1));
+    }
+
+    @Test
+    void getColumn() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard board = new SudokuBoard(solver);
+        assertNotNull(board.getColumn(7));
+    }
+
+    @Test
+    void getBox() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuBoard board = new SudokuBoard(solver);
+        assertNotNull(board.getBox(5,5));
     }
 }
