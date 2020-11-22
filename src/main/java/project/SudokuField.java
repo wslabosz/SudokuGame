@@ -1,5 +1,7 @@
 package project;
 
+import com.google.common.base.Objects;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.InputMismatchException;
@@ -28,4 +30,16 @@ public class SudokuField {
         propertySupport.addPropertyChangeListener(pcl);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SudokuField that = (SudokuField) o;
+        return value == that.value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
+    }
 }
