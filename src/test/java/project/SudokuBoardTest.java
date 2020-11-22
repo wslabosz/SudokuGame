@@ -2,7 +2,6 @@ package project;
 
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
-import java.util.DuplicateFormatFlagsException;
 import java.util.InputMismatchException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -100,5 +99,36 @@ class SudokuBoardTest {
         }
     }
 
+    @Test
+    void testEquals() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuSolver solver2 = new BacktrackingSudokuSolver();
+        SudokuBoard board1 = new SudokuBoard(solver);
+        SudokuBoard board2 = new SudokuBoard(solver);
+        SudokuBoard board3 = new SudokuBoard(null);
+        SudokuBoard board4 = new SudokuBoard(solver2);
+        SudokuBoard board5 = new SudokuBoard(solver);
+        board5.setNumber(0,0,1);
+        assertNotEquals(board1, null);
+        assertNotEquals(board1, solver);
+        assertEquals(board1,board1);
+        assertEquals(board1,board2);
+        assertNotEquals(board1,board3);
+        assertNotEquals(board1,board4);
+        assertNotEquals(board1,board5);
+    }
 
+    @Test
+    void testHashCode() {
+        SudokuSolver solver = new BacktrackingSudokuSolver();
+        SudokuSolver solver2 = new BacktrackingSudokuSolver();
+        SudokuBoard board1 = new SudokuBoard(solver);
+        SudokuBoard board2 = new SudokuBoard(solver);
+        SudokuBoard board3 = new SudokuBoard(null);
+        SudokuBoard board4 = new SudokuBoard(solver2);
+        assertEquals(board1.hashCode(),board1.hashCode());
+        assertEquals(board1.hashCode(),board2.hashCode());
+        assertNotEquals(board1.hashCode(),board3.hashCode());
+        assertNotEquals(board1.hashCode(),board4.hashCode());
+    }
 }
