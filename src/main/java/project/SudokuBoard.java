@@ -1,5 +1,6 @@
 package project;
 
+import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.Arrays;
@@ -111,6 +112,24 @@ public class SudokuBoard implements PropertyChangeListener {
         }
         stringBuilder.append(border);
         return stringBuilder.toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SudokuBoard other = (SudokuBoard) obj;
+        return Objects.equal(this.board, other.board)
+                && Objects.equal(this.sudokuSolver, other.sudokuSolver);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(this.board, this.sudokuSolver);
     }
 
     @Override
