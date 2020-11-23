@@ -1,5 +1,6 @@
 package project;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -92,26 +93,9 @@ public class SudokuBoard implements PropertyChangeListener {
 
     @Override
     public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        final String border = "=========================\n";
-        stringBuilder.append(border);
-        for (int i = 0; i < 9; i++) {
-            if (i == 3 || i == 6) {
-                stringBuilder.append(border);
-            }
-            stringBuilder.append("| ");
-            for (int j = 0; j < 9; j++) {
-                stringBuilder.append(board.get(i * 9 + j).getFieldValue())
-                        .append(" ");
-                if (j == 2 || j == 5) {
-                    stringBuilder.append("| ");
-                }
-            }
-            stringBuilder.append("|\n");
-
-        }
-        stringBuilder.append(border);
-        return stringBuilder.toString();
+        return MoreObjects.toStringHelper(this)
+                .add("board", board)
+                .toString();
     }
 
     @Override
@@ -123,13 +107,12 @@ public class SudokuBoard implements PropertyChangeListener {
             return false;
         }
         final SudokuBoard other = (SudokuBoard) obj;
-        return Objects.equal(this.board, other.board)
-                && Objects.equal(this.sudokuSolver, other.sudokuSolver);
+        return Objects.equal(this.board, other.board);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.board, this.sudokuSolver);
+        return Objects.hashCode(this.board);
     }
 
     @Override
