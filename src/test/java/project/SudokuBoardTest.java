@@ -1,6 +1,7 @@
 package project;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
