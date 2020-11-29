@@ -1,7 +1,8 @@
 package project;
 
 public class SudokuBoardDaoFactory {
-    public static FileSudokuBoardDao getFileDao(String filename) {
+    public static Dao<SudokuBoard> getFileDao(String filename) {
         return new FileSudokuBoardDao(filename);
+
     }
 }
