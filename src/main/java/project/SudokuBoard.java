@@ -4,13 +4,14 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudokuBoard implements PropertyChangeListener {
+public class SudokuBoard implements Serializable, PropertyChangeListener  {
     public static final int SIZE = 9;
     private final List<SudokuField> board;
-    private final SudokuSolver sudokuSolver;
+    private final transient SudokuSolver sudokuSolver;
     private boolean doListen = false;
 
     public SudokuBoard(SudokuSolver sudokuSolver) {

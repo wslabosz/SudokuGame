@@ -5,18 +5,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class FileSudokuBoardDao implements Dao<SudokuBoard> {
+public class FileSudokuBoardDao implements Dao<SudokuBoard>, Serializable {
 
     private final String filename;
 
     public FileSudokuBoardDao(String filename) {
-        this.filename = filename + ".txt";
+        this.filename = filename;
     }
 
     @Override
     public SudokuBoard read() {
-        SudokuBoard object = null;
+        SudokuBoard object;
         // try-with-resources
         try (FileInputStream fis = new FileInputStream(filename);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
