@@ -2,7 +2,6 @@ package project;
 
 import static project.SudokuBoard.SIZE;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
