@@ -17,25 +17,28 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, Serializable {
 
     @Override
     public SudokuBoard read() {
-        SudokuBoard object;
         // try-with-resources
         try (FileInputStream fis = new FileInputStream(filename);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
-             object = (SudokuBoard) ois.readObject();
+             return (SudokuBoard) ois.readObject();
         } catch (ClassNotFoundException | IOException ex) {
             throw new OperationOnFileException(ex);
         }
-        return object;
     }
 
     @Override
     public void write(SudokuBoard object) {
         try (FileOutputStream fos = new FileOutputStream(filename);
-             ObjectOutputStream ous = new ObjectOutputStream(fos)) {
-             ous.writeObject(object);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+             oos.writeObject(object);
         } catch (IOException ex) {
             throw new OperationOnFileException(ex);
         }
+    }
+
+    @Override
+    public void close() {
+        System.out.println("Closed!");
     }
 
 
