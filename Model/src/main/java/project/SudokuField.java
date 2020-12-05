@@ -2,12 +2,14 @@ package project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import javafx.scene.control.ComboBox;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.InputMismatchException;
 
-public class SudokuField implements Serializable {
+public class SudokuField implements Cloneable, Comparable {
     private int value;
     private final PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
 
@@ -53,5 +55,10 @@ public class SudokuField implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hashCode(value);
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
     }
 }

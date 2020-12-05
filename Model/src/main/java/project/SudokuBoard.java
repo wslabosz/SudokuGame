@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
-public class SudokuBoard implements Serializable, PropertyChangeListener  {
+public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable  {
     public static final int SIZE = 9;
     private final List<SudokuField> board;
     private final transient SudokuSolver sudokuSolver;
