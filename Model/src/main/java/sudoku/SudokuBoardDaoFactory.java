@@ -1,4 +1,4 @@
-package project;
+package sudoku;
 
 public class SudokuBoardDaoFactory {
     private SudokuBoardDaoFactory() {

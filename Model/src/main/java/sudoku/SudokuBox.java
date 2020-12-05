@@ -1,4 +1,4 @@
-package project;
+package sudoku;
 
 import java.util.List;
 

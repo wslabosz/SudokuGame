@@ -1,4 +1,4 @@
-package project;
+package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -7,7 +7,6 @@ import java.beans.PropertyChangeListener;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable  {

@@ -1,11 +1,11 @@
-package project;
+package sudoku;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static project.SudokuBoard.SIZE;
+import static sudoku.SudokuBoard.SIZE;
 
 class SudokuFieldsTemplateTest {
 

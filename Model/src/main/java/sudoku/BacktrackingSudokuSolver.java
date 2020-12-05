@@ -1,6 +1,6 @@
-package project;
+package sudoku;
 
-import static project.SudokuBoard.SIZE;
+import static sudoku.SudokuBoard.SIZE;
 
 import java.util.Arrays;
 import java.util.Collections;

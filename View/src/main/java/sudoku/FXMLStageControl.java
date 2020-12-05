@@ -1,4 +1,4 @@
-package project;
+package sudoku;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class FXMLStageControl {
+
     private static Stage stage;
 
     private static void setStage(Stage stage) {
@@ -18,9 +19,9 @@ public class FXMLStageControl {
         return new FXMLLoader(FXMLStageControl.class.getResource(fxml)).load();
     }
 
-    private static void buildStage(String filePath) throws IOException {
+    public static void setScene(String filePath) throws IOException {
         stage.setScene(new Scene(loadFXML(filePath)));
-
+        stage.sizeToScene();
         stage.show();
     }
 
@@ -28,7 +29,7 @@ public class FXMLStageControl {
         setStage(stage);
         stage.setScene(new Scene(loadFXML(filePath)));
         stage.setTitle(title);
-
+        stage.sizeToScene();
         stage.show();
     }
 }

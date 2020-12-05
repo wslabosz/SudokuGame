@@ -1,4 +1,4 @@
-package project;
+package sudoku;
 
 public class WrongFieldValueSudokuException extends IllegalArgumentException {
     public WrongFieldValueSudokuException(final String message) {

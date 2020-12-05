@@ -1,4 +1,4 @@
-package project;
+package sudoku;
 
 interface SudokuSolver {
     void solve(SudokuBoard board);

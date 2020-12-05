@@ -1,4 +1,4 @@
-package project;
+package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;

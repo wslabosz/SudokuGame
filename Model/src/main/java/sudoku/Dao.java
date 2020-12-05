@@ -1,4 +1,4 @@
-package project;
+package sudoku;
 
 public interface Dao<T> extends AutoCloseable {
 
