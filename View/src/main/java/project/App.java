@@ -3,10 +3,16 @@ package project;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class App extends Application {
-    @Override
-    public void start(Stage stage) throws Exception {
+import java.io.IOException;
 
+public class App extends Application {
+    private FXMLStageControl stageControl;
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLStageControl.buildStage(stage, "choiceWindow.fxml", "Sudoku");
     }
-    public static void main(String[])
+    public static void main(String[] args) {
+        //launch();
+    }
 }
