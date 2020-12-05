@@ -2,7 +2,6 @@ package project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -62,10 +61,14 @@ public class SudokuField implements Cloneable, Comparable, Serializable {
     }
 
     @Override
-    public int compareTo(Object o) throws ClassCastException{
+    public int compareTo(Object o) throws ClassCastException {
         SudokuField pom = (SudokuField) o;
-        if (pom.value > this.value) { return -1;}
-        else if (pom.value == this.value) { return 0;}
-        else { return 1;}
+        if (pom.value > this.value) {
+            return -1;
+        } else if (pom.value == this.value) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }
