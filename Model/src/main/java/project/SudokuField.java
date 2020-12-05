@@ -8,7 +8,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.InputMismatchException;
 
-public class SudokuField implements Cloneable, Comparable {
+public class SudokuField implements Cloneable, Comparable, Serializable {
     private int value;
     private final PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
 
@@ -54,6 +54,11 @@ public class SudokuField implements Cloneable, Comparable {
     @Override
     public int hashCode() {
         return Objects.hashCode(value);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
     @Override

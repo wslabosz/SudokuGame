@@ -49,4 +49,9 @@ public abstract class SudokuFieldsTemplate implements Cloneable {
                 .add("fields", fields)
                 .toString();
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

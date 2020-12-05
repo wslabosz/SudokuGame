@@ -5,12 +5,14 @@ import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable  {
     public static final int SIZE = 9;
-    private final List<SudokuField> board;
+    private List<SudokuField> board;
     private final transient SudokuSolver sudokuSolver;
     private boolean doListen = false;
 
@@ -114,6 +116,17 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     @Override
     public int hashCode() {
         return Objects.hashCode(this.board);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        SudokuBoard cloned = (SudokuBoard)super.clone();
+        ArrayList<SudokuField> sudokuFieldClone = new ArrayList<>();
+        for (SudokuField sudokuField : board) {
+            sudokuFieldClone.add((SudokuField) sudokuField.clone());
+        }
+        cloned.board = sudokuFieldClone;
+        return cloned;
     }
 
     @Override

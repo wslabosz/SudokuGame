@@ -8,3 +8,7 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+/SudokuGameProject.iml
+/Model/ModelProject.iml
+/Model/testFilename
+/View/ViewProject.iml

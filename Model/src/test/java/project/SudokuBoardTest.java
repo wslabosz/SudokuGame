@@ -156,4 +156,15 @@ class SudokuBoardTest {
         assertNotNull(board.getBox(5,5));
     }
 
+    @Test
+    void testClone() throws CloneNotSupportedException {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
+        SudokuBoard cloned = (SudokuBoard) board.clone();
+        assertNotSame(board, cloned);
+        assertEquals(board.getClass(), cloned.getClass());
+        assertEquals(cloned, board);
+        board.setNumber(0,0,0);
+        assertNotEquals(cloned, board);
+    }
 }

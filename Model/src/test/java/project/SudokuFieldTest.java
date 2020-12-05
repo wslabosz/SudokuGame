@@ -63,4 +63,15 @@ class SudokuFieldTest {
             field.compareTo(board);
         });
     }
+
+    @Test
+    void testClone() throws CloneNotSupportedException {
+        SudokuField field = new SudokuField(5);
+        SudokuField cloned = (SudokuField) field.clone();
+        assertNotSame(field, cloned);
+        assertEquals(field.getClass(), cloned.getClass());
+        assertEquals(cloned, field);
+        field.setFieldValue(3);
+        assertNotEquals(cloned, field);
+    }
 }

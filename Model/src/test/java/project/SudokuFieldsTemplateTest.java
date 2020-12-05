@@ -70,4 +70,25 @@ class SudokuFieldsTemplateTest {
         String toString = row1.toString();
         assertTrue(toString.matches("SudokuRow\\{fields=\\[[a-zA-Z\\{a-z=0-9\\}\\,\\s]*?\\]\\}"));
     }
+
+    @Test
+    void testClone() throws CloneNotSupportedException {
+        SudokuField[] fields = new SudokuField[SIZE];
+        SudokuField field5 = new SudokuField(5);
+        for (int i = 0; i < 9; i++) {
+            fields[i] = field5;
+        }
+        SudokuFieldsTemplate row = new SudokuRow(Arrays.asList(fields));
+        SudokuFieldsTemplate col = new SudokuColumn(Arrays.asList(fields));
+        SudokuFieldsTemplate box = new SudokuBox(Arrays.asList(fields));
+        Object sudokuRowClone = row.clone();
+        Object sudokuColClone = col.clone();
+        Object sudokuBoxClone = box.clone();
+        assertEquals(row, sudokuRowClone);
+        assertEquals(col, sudokuColClone);
+        assertEquals(box, sudokuBoxClone);
+        assertNotEquals(box, sudokuRowClone);
+        assertNotEquals(box, sudokuColClone);
+        assertNotEquals(row, sudokuBoxClone);
+    }
 }
