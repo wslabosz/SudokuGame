@@ -2,7 +2,6 @@ package project;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import javafx.scene.control.ComboBox;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -58,7 +57,10 @@ public class SudokuField implements Cloneable, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public int compareTo(Object o) throws ClassCastException{
+        SudokuField pom = (SudokuField) o;
+        if (pom.value > this.value) { return -1;}
+        else if (pom.value == this.value) { return 0;}
+        else { return 1;}
     }
 }

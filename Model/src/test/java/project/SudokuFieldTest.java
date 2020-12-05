@@ -49,4 +49,18 @@ class SudokuFieldTest {
             field.setFieldValue(10);
         });
     }
+
+    @Test
+    public void compareToTest() {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        SudokuField field = new SudokuField(4);
+        SudokuField field1 = new SudokuField(4);
+        SudokuField field2 = new SudokuField(5);
+        assertEquals(1, field2.compareTo(field1));
+        assertEquals(0, field1.compareTo(field));
+        assertEquals(-1, field.compareTo(field2));
+        assertThrows(ClassCastException.class, () -> {
+            field.compareTo(board);
+        });
+    }
 }
