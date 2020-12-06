@@ -2,6 +2,7 @@ package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -52,6 +53,12 @@ public abstract class SudokuFieldsTemplate implements Cloneable {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+        SudokuFieldsTemplate cloned = (SudokuFieldsTemplate) super.clone();
+        ArrayList<SudokuField> fieldsClone = new ArrayList<>();
+        for (SudokuField sudokuField : fields) {
+            fieldsClone.add((SudokuField) sudokuField.clone());
+        }
+        cloned.fields = fieldsClone;
+        return cloned;
     }
 }

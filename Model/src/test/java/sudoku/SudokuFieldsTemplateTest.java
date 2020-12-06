@@ -84,11 +84,22 @@ class SudokuFieldsTemplateTest {
         Object sudokuRowClone = row.clone();
         Object sudokuColClone = col.clone();
         Object sudokuBoxClone = box.clone();
-        assertEquals(row, sudokuRowClone);
-        assertEquals(col, sudokuColClone);
-        assertEquals(box, sudokuBoxClone);
-        assertNotEquals(box, sudokuRowClone);
-        assertNotEquals(box, sudokuColClone);
+        assertNotSame(row, sudokuRowClone);
+        assertEquals(row.getClass(), sudokuRowClone.getClass());
+        assertEquals(sudokuRowClone, row);
         assertNotEquals(row, sudokuBoxClone);
+
+        assertNotSame(col, sudokuColClone);
+        assertEquals(col.getClass(), sudokuColClone.getClass());
+        assertEquals(sudokuColClone, col);
+        assertNotEquals(col, sudokuRowClone);
+
+        assertNotSame(box, sudokuBoxClone);
+        assertEquals(box.getClass(), sudokuBoxClone.getClass());
+        assertEquals(sudokuBoxClone, box);
+
+        SudokuField field9 = new SudokuField(9);
+        row.fields.set(0, field9);
+        assertNotEquals(row, sudokuRowClone);
     }
 }
