@@ -20,7 +20,9 @@ public class FXMLStageControl {
     }
 
     public static void setScene(String filePath) throws IOException {
-        stage.setScene(new Scene(loadFXML(filePath)));
+        Scene scene = new Scene(loadFXML(filePath));
+        stage.setScene(scene);
+        //scene.getStylesheets().add("sudoku/sudokuBoardWindow.css");
         stage.sizeToScene();
         stage.show();
     }

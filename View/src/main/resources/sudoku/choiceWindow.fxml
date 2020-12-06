@@ -16,9 +16,9 @@
       <ChoiceBox fx:id="difficultyChoiceBox" layoutX="182.0" layoutY="128.0" prefHeight="26.0" prefWidth="236.0">
          <items>
             <FXCollections fx:factory="observableArrayList">
-               <String fx:value="Easy" />
-               <String fx:value="Normal" />
-               <String fx:value="Hard" />
+               <String fx:value="EASY" />
+               <String fx:value="NORMAL" />
+               <String fx:value="HARD" />
             </FXCollections>
          </items>
       </ChoiceBox>

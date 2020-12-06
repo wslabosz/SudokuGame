@@ -4,6 +4,11 @@ import java.util.*;
 
 public class Difficulty {
 
+    enum diff {
+        EASY,
+        NORMAL,
+        HARD
+    }
     private Random rand = new Random();
     private Set<Field> fieldsToRemove = new HashSet<>();
 
@@ -18,15 +23,15 @@ public class Difficulty {
         }
     }
 
-    public SudokuBoard difficultyChooser(SudokuBoard board, String diff) {
-        switch (diff) {
-            case "Easy" -> {
+    public SudokuBoard difficultyChooser(SudokuBoard board, diff dif) {
+        switch (dif) {
+            case EASY -> {
                 randomFields(44);
             }
-            case "Normal" -> {
+            case NORMAL -> {
                 randomFields(51);
             }
-            case "Hard" -> {
+            case HARD -> {
                 randomFields(58);
             }
         }
