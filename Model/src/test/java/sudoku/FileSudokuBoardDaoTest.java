@@ -14,20 +14,24 @@ class FileSudokuBoardDaoTest {
 
     @Test
     void writeTest() {
-        try(FileSudokuBoardDao fileDao = (FileSudokuBoardDao) SudokuBoardDaoFactory.getFileDao("testFilename");
-            FileSudokuBoardDao invalidFileDao = (FileSudokuBoardDao) SudokuBoardDaoFactory.getFileDao("")){
+        try(Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao("testFilename");
+            Dao<SudokuBoard> invalidFileDao = SudokuBoardDaoFactory.getFileDao("")){
             fileDao.write(board);
             assertTrue(new File("testFilename").length() != 0);
             assertThrows(OperationOnFileException.class, () -> invalidFileDao.write(invalidBoard));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     @Test
     void readTest() {
-        try(FileSudokuBoardDao fileDao = (FileSudokuBoardDao) SudokuBoardDaoFactory.getFileDao("testFilename");
-            FileSudokuBoardDao invalidFileDao = (FileSudokuBoardDao) SudokuBoardDaoFactory.getFileDao("")){
+        try(Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao("testFilename");
+            Dao<SudokuBoard> invalidFileDao = SudokuBoardDaoFactory.getFileDao("")){
             assertEquals(fileDao.read(), board);
             assertThrows(OperationOnFileException.class, invalidFileDao::read);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
