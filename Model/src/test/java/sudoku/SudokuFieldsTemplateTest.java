@@ -81,9 +81,9 @@ class SudokuFieldsTemplateTest {
         SudokuFieldsTemplate row = new SudokuRow(Arrays.asList(fields));
         SudokuFieldsTemplate col = new SudokuColumn(Arrays.asList(fields));
         SudokuFieldsTemplate box = new SudokuBox(Arrays.asList(fields));
-        Object sudokuRowClone = row.clone();
-        Object sudokuColClone = col.clone();
-        Object sudokuBoxClone = box.clone();
+        SudokuRow sudokuRowClone = (SudokuRow) row.clone();
+        SudokuColumn sudokuColClone = (SudokuColumn) col.clone();
+        SudokuBox sudokuBoxClone = (SudokuBox) box.clone();
         assertNotSame(row, sudokuRowClone);
         assertEquals(row.getClass(), sudokuRowClone.getClass());
         assertEquals(sudokuRowClone, row);

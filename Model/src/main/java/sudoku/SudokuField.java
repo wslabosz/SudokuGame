@@ -62,6 +62,9 @@ public class SudokuField implements Cloneable, Comparable<SudokuField>, Serializ
 
     @Override
     public int compareTo(SudokuField field)  {
+        if (field == null) {
+            throw new NullPointerException();
+        }
         if (field.value > this.value) {
             return -1;
         } else if (field.value == this.value) {

@@ -122,7 +122,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         SudokuBoard cloned = (SudokuBoard) super.clone();
         ArrayList<SudokuField> sudokuFieldClone = new ArrayList<>();
         for (SudokuField sudokuField : board) {
-            sudokuFieldClone.add((SudokuField) sudokuField.clone());
+            sudokuFieldClone.add(sudokuField.clone());
         }
         cloned.board = sudokuFieldClone;
         return cloned;

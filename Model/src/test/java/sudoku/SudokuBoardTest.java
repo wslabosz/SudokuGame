@@ -160,7 +160,7 @@ class SudokuBoardTest {
     void testClone() throws CloneNotSupportedException {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
-        SudokuBoard cloned = (SudokuBoard) board.clone();
+        SudokuBoard cloned = board.clone();
         assertNotSame(board, cloned);
         assertEquals(board.getClass(), cloned.getClass());
         assertEquals(cloned, board);

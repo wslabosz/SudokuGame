@@ -52,19 +52,21 @@ class SudokuFieldTest {
 
     @Test
     public void compareToTest() {
-        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         SudokuField field = new SudokuField(4);
         SudokuField field1 = new SudokuField(4);
         SudokuField field2 = new SudokuField(5);
         assertEquals(1, field2.compareTo(field1));
         assertEquals(0, field1.compareTo(field));
         assertEquals(-1, field.compareTo(field2));
+        assertThrows(NullPointerException.class, () -> {
+            field.compareTo(null);
+        });
     }
 
     @Test
     void testClone() throws CloneNotSupportedException {
         SudokuField field = new SudokuField(5);
-        SudokuField cloned = (SudokuField) field.clone();
+        SudokuField cloned = field.clone();
         assertNotSame(field, cloned);
         assertEquals(field.getClass(), cloned.getClass());
         assertEquals(cloned, field);
