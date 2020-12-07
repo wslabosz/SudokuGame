@@ -8,20 +8,12 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudoku.ChoiceWindowControl">
    <children>
-      <Label layoutX="217.0" layoutY="86.0" text="Choose difficulty:" textAlignment="CENTER">
+      <Label layoutX="190.0" layoutY="80.0" text="%ChooseDiff" textAlignment="CENTER">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="difficultyChoiceBox" layoutX="182.0" layoutY="128.0" prefHeight="26.0" prefWidth="236.0">
-         <items>
-            <FXCollections fx:factory="observableArrayList">
-               <String fx:value="EASY" />
-               <String fx:value="NORMAL" />
-               <String fx:value="HARD" />
-            </FXCollections>
-         </items>
-      </ChoiceBox>
+      <ChoiceBox fx:id="difficultyChoiceBox" layoutX="182.0" layoutY="128.0" prefHeight="26.0" prefWidth="236.0"/>
       <Button fx:id="buttonStartGame" layoutX="280.0" layoutY="200.0" mnemonicParsing="false" onAction="#onActionButtonStartGame" text="start" />
    </children>
 </AnchorPane>

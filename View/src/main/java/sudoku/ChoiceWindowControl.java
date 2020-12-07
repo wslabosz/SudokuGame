@@ -6,22 +6,38 @@ import javafx.scene.control.ChoiceBox;
 
 
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class ChoiceWindowControl {
 
-    private static Difficulty.diff diff;
-    public ChoiceBox difficultyChoiceBox;
+    private static String diff;
+    public ChoiceBox<String> difficultyChoiceBox;
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("sudoku/Language");
 
-    public static Difficulty.diff getDiff() {
+    public static String getDiff() {
         return diff;
+    }
+
+    @FXML
+    private void initialize() {
+//        difficultyChoiceBox.getItems().addAll(
+//                resourceBundle.getString("choiceBoxLang1"),
+//                resourceBundle.getString("choiceBoxLang2")
+//        );
+
+        difficultyChoiceBox.getItems().addAll(
+                resourceBundle.getString("diffEasy"),
+                resourceBundle.getString("diffNormal"),
+                resourceBundle.getString("diffHard")
+        );
     }
 
     @FXML
     public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException {
         if (difficultyChoiceBox.getSelectionModel().getSelectedItem() != null) {
-            diff = Difficulty.diff.valueOf(difficultyChoiceBox.getSelectionModel().getSelectedItem().toString());
+            diff = difficultyChoiceBox.getSelectionModel().getSelectedItem();
             if (diff != null) {
-                FXMLStageControl.setScene("sudokuBoardWindow.fxml");
+                FXMLStageControl.setScene("sudokuBoardWindow.fxml", resourceBundle);
             }
         }
     }
