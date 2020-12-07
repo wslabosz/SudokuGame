@@ -52,11 +52,11 @@ public abstract class SudokuFieldsTemplate implements Cloneable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
+    public SudokuFieldsTemplate clone() throws CloneNotSupportedException {
         SudokuFieldsTemplate cloned = (SudokuFieldsTemplate) super.clone();
         ArrayList<SudokuField> fieldsClone = new ArrayList<>();
         for (SudokuField sudokuField : fields) {
-            fieldsClone.add((SudokuField) sudokuField.clone());
+            fieldsClone.add(sudokuField.clone());
         }
         cloned.fields = fieldsClone;
         return cloned;

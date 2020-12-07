@@ -7,7 +7,7 @@ import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.InputMismatchException;
 
-public class SudokuField implements Cloneable, Comparable, Serializable {
+public class SudokuField implements Cloneable, Comparable<SudokuField>, Serializable {
     private int value;
     private final PropertyChangeSupport propertySupport = new PropertyChangeSupport(this);
 
@@ -56,16 +56,15 @@ public class SudokuField implements Cloneable, Comparable, Serializable {
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public SudokuField clone() throws CloneNotSupportedException {
+        return (SudokuField) super.clone();
     }
 
     @Override
-    public int compareTo(Object o) throws ClassCastException {
-        SudokuField pom = (SudokuField) o;
-        if (pom.value > this.value) {
+    public int compareTo(SudokuField field)  {
+        if (field.value > this.value) {
             return -1;
-        } else if (pom.value == this.value) {
+        } else if (field.value == this.value) {
             return 0;
         } else {
             return 1;

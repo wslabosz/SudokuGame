@@ -38,7 +38,6 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, Serializable {
 
     @Override
     public void close() {
-        System.out.println("Closed!");
     }
 
 

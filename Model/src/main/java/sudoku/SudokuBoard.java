@@ -118,8 +118,8 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     }
 
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        SudokuBoard cloned = (SudokuBoard)super.clone();
+    public SudokuBoard clone() throws CloneNotSupportedException {
+        SudokuBoard cloned = (SudokuBoard) super.clone();
         ArrayList<SudokuField> sudokuFieldClone = new ArrayList<>();
         for (SudokuField sudokuField : board) {
             sudokuFieldClone.add((SudokuField) sudokuField.clone());

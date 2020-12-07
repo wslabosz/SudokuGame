@@ -59,9 +59,6 @@ class SudokuFieldTest {
         assertEquals(1, field2.compareTo(field1));
         assertEquals(0, field1.compareTo(field));
         assertEquals(-1, field.compareTo(field2));
-        assertThrows(ClassCastException.class, () -> {
-            field.compareTo(board);
-        });
     }
 
     @Test
