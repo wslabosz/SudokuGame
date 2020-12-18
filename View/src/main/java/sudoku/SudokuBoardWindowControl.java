@@ -4,28 +4,34 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
-
 import java.util.ResourceBundle;
 
 
 public class SudokuBoardWindowControl {
+
+    public SudokuBoardWindowControl() {
+    }
+
     @FXML
     private GridPane sudokuBoardGrid;
 
     private SudokuSolver solver = new BacktrackingSudokuSolver();
-    private SudokuBoard board = new SudokuBoard(solver);
-    private SudokuBoard boardCopy = new SudokuBoard(solver);
-    private Difficulty difficulty = new Difficulty();
+    private Difficulty diff;
+    private SudokuBoard board;
     private ResourceBundle resourceBundle = ResourceBundle.getBundle("sudoku/Language");
 
     @FXML
-    private void initialize() throws CloneNotSupportedException {
-        board.solveGame();
-        boardCopy = board.clone();
-        difficulty.difficultyChooser(board, ChoiceWindowControl.getDiff());
-        fillGrid();
+    private void initialize() {
     }
 
+    public void initData(Difficulty diff) throws CloneNotSupportedException {
+        this.diff = diff;
+        board = new SudokuBoard(solver, diff);
+        board.solveGame();
+        SudokuBoard boardCopy = board.clone();
+        diff.eraseFields(board);
+        fillGrid();
+    }
 
     private void fillGrid() {
         for (int i = 0; i < SudokuBoard.SIZE; i++) {

@@ -2,21 +2,20 @@ package sudoku;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
-
-
 import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class ChoiceWindowControl {
+    @FXML
+    public ChoiceBox<String> difficultyChoiceBox = new ChoiceBox<>();
 
-    private static String diff;
-    public ChoiceBox<String> difficultyChoiceBox;
     private final ResourceBundle resourceBundle = ResourceBundle.getBundle("sudoku/Language");
-
-    public static String getDiff() {
-        return diff;
-    }
+    private Difficulty diff;
+    private final String easy = resourceBundle.getString("Easy");
+    private final String normal = resourceBundle.getString("Normal");
+    private final String hard = resourceBundle.getString("Hard");
 
     @FXML
     private void initialize() {
@@ -26,19 +25,23 @@ public class ChoiceWindowControl {
 //        );
 
         difficultyChoiceBox.getItems().addAll(
-                resourceBundle.getString("diffEasy"),
-                resourceBundle.getString("diffNormal"),
-                resourceBundle.getString("diffHard")
+                resourceBundle.getString(Difficulty.Easy.toString()),
+                resourceBundle.getString(Difficulty.Normal.toString()),
+                resourceBundle.getString(Difficulty.Hard.toString())
         );
     }
 
     @FXML
-    public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException {
+    public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException, CloneNotSupportedException {
         if (difficultyChoiceBox.getSelectionModel().getSelectedItem() != null) {
-            diff = difficultyChoiceBox.getSelectionModel().getSelectedItem();
-            if (diff != null) {
-                FXMLStageControl.setScene("sudokuBoardWindow.fxml", resourceBundle);
+            if (difficultyChoiceBox.getSelectionModel().getSelectedItem().equals(easy)) {
+                diff = Difficulty.Easy;
+            } else if (difficultyChoiceBox.getSelectionModel().getSelectedItem().equals(normal)) {
+                diff = Difficulty.Normal;
+            } else if (difficultyChoiceBox.getSelectionModel().getSelectedItem().equals(hard)) {
+                diff = Difficulty.Hard;
             }
+            FXMLStageControl.passDifficulty("sudokuBoardWindow.fxml", resourceBundle, diff);
         }
     }
 

@@ -8,7 +8,7 @@ import java.util.ResourceBundle;
 
 public class App extends Application {
 
-    private ResourceBundle resourceBundle = ResourceBundle.getBundle("sudoku/Language");
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("sudoku/Language");
 
     @Override
     public void start(Stage stage) throws IOException {

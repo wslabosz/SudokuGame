@@ -8,12 +8,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable  {
     public static final int SIZE = 9;
     private List<SudokuField> board;
     private final transient SudokuSolver sudokuSolver;
     private boolean doListen = false;
+    private Difficulty difficulty;
+
+    public SudokuBoard(SudokuSolver sudokuSolver, Difficulty difficulty) {
+        board = Arrays.asList(new SudokuField[SIZE * SIZE]);
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                board.set(i * 9 + j, new SudokuField(0));
+                board.get(i * 9 + j).addPropertyChangeListener(this);
+            }
+        }
+        this.sudokuSolver = sudokuSolver;
+        this.difficulty = difficulty;
+    }
 
     public SudokuBoard(SudokuSolver sudokuSolver) {
         board = Arrays.asList(new SudokuField[SIZE * SIZE]);
@@ -140,5 +154,4 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
             }
         }
     }
-
 }

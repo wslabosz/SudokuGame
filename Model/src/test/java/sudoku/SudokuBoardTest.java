@@ -10,6 +10,18 @@ import static sudoku.SudokuBoard.SIZE;
 
 class SudokuBoardTest {
 
+    private int checkZeroValues(SudokuBoard board) {
+        int counter = 0;
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (board.getNumberFromPosition(i, j) == 0) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
+    }
+
     @Test
     void checkingSudokuRegularity() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
@@ -166,5 +178,24 @@ class SudokuBoardTest {
         assertEquals(cloned, board);
         board.setNumber(0,0,0);
         assertNotEquals(cloned, board);
+    }
+
+    @Test
+    void BoardDifficultyTest() {
+        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Easy);
+        SudokuBoard sudokuBoard2 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Normal);
+        SudokuBoard sudokuBoard3 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Hard);
+        sudokuBoard1.solveGame();
+        Difficulty easy = Difficulty.Easy;
+        easy.eraseFields(sudokuBoard1);
+        assertEquals(44, checkZeroValues(sudokuBoard1));
+        sudokuBoard2.solveGame();
+        Difficulty normal = Difficulty.Normal;
+        normal.eraseFields(sudokuBoard2);
+        assertEquals(51, checkZeroValues(sudokuBoard2));
+        sudokuBoard3.solveGame();
+        Difficulty hard = Difficulty.Hard;
+        hard.eraseFields(sudokuBoard3);
+        assertEquals(58, checkZeroValues(sudokuBoard3));
     }
 }
