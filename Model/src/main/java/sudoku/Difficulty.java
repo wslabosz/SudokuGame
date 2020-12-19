@@ -17,7 +17,7 @@ public enum Difficulty {
         Random rand = new Random();
         int loops = 0;
         while (loops < this.elements) {
-            int[] positions = {rand.nextInt(8), rand.nextInt(8)};
+            int[] positions = {rand.nextInt(9), rand.nextInt(9)};
             if (board.getNumberFromPosition(positions[0], positions[1]) != 0) {
                 board.setNumber(positions[0], positions[1], 0);
                 loops++;

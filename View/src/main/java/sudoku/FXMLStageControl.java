@@ -38,7 +38,7 @@ public class FXMLStageControl {
         stage.show();
     }
 
-    static public void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff) throws IOException, CloneNotSupportedException {
+    public static void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff) throws IOException, CloneNotSupportedException {
         FXMLLoader loader = new FXMLLoader(FXMLStageControl.class.getResource(filePath), resourceBundle);
         Stage stage = new Stage();
         stage.setScene(new Scene(loader.load()));

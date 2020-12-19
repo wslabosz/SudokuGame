@@ -2,12 +2,17 @@ package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import java.util.ArrayList;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public abstract class SudokuFieldsTemplate implements Cloneable {
+public abstract class SudokuFieldsTemplate implements Cloneable, Serializable {
     protected List<SudokuField> fields;
 
     public SudokuFieldsTemplate(final List<SudokuField> fields) {
@@ -51,14 +56,21 @@ public abstract class SudokuFieldsTemplate implements Cloneable {
                 .toString();
     }
 
-    @Override
-    public SudokuFieldsTemplate clone() throws CloneNotSupportedException {
-        SudokuFieldsTemplate cloned = (SudokuFieldsTemplate) super.clone();
-        ArrayList<SudokuField> fieldsClone = new ArrayList<>();
-        for (SudokuField sudokuField : fields) {
-            fieldsClone.add(sudokuField.clone());
-        }
-        cloned.fields = fieldsClone;
-        return cloned;
+    public SudokuFieldsTemplate deepClone() throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bos);
+        out.writeObject(this);
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        return (SudokuFieldsTemplate) ois.readObject();
     }
+
+    //      SudokuFieldsTemplate cloned = (SudokuFieldsTemplate) super.clone();
+    //      ArrayList<SudokuField> fieldsClone = new ArrayList<>();
+    //      for (SudokuField sudokuField : fields) {
+    //          fieldsClone.add(sudokuField.clone());
+    //      }
+    //      cloned.fields = fieldsClone;
+    //      return cloned;
+
 }

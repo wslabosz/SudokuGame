@@ -28,7 +28,7 @@ public class SudokuBoardWindowControl {
         this.diff = diff;
         board = new SudokuBoard(solver, diff);
         board.solveGame();
-        SudokuBoard boardCopy = board.clone();
+        //SudokuBoard boardCopy = board.clone();
         diff.eraseFields(board);
         fillGrid();
     }

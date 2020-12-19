@@ -2,6 +2,7 @@ package sudoku;
 
 import org.junit.jupiter.api.*;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 
@@ -169,15 +170,15 @@ class SudokuBoardTest {
     }
 
     @Test
-    void testClone() throws CloneNotSupportedException {
+    void testClone() throws IOException, ClassNotFoundException {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
-        SudokuBoard cloned = board.clone();
-        assertNotSame(board, cloned);
-        assertEquals(board.getClass(), cloned.getClass());
-        assertEquals(cloned, board);
+        SudokuBoard clone = board.deepClone();
+        assertNotSame(board, clone);
+        assertEquals(board.getClass(), clone.getClass());
+        assertEquals(clone, board);
         board.setNumber(0,0,0);
-        assertNotEquals(cloned, board);
+        assertNotEquals(clone, board);
     }
 
     @Test

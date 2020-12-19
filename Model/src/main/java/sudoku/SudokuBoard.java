@@ -4,15 +4,18 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
-public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable  {
+public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable {
     public static final int SIZE = 9;
-    private List<SudokuField> board;
+    private final List<SudokuField> board;
     private final transient SudokuSolver sudokuSolver;
     private boolean doListen = false;
     private Difficulty difficulty;
@@ -131,16 +134,39 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         return Objects.hashCode(this.board);
     }
 
-    @Override
-    public SudokuBoard clone() throws CloneNotSupportedException {
-        SudokuBoard cloned = (SudokuBoard) super.clone();
-        ArrayList<SudokuField> sudokuFieldClone = new ArrayList<>();
-        for (SudokuField sudokuField : board) {
-            sudokuFieldClone.add(sudokuField.clone());
-        }
-        cloned.board = sudokuFieldClone;
-        return cloned;
+
+    public SudokuBoard deepClone() throws IOException, ClassNotFoundException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream out = new ObjectOutputStream(bos);
+        out.writeObject(this);
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        return (SudokuBoard) ois.readObject();
     }
+
+    //  @Override
+    //  public SudokuBoard clone() throws CloneNotSupportedException {
+    //      try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    //           ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+    //          oos.writeObject(this);
+    //          try (ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+    //               ObjectInputStream ois = new ObjectInputStream(bais)) {
+    //              return (SudokuBoard) ois.readObject();
+    //          }
+    //      } catch (IOException | ClassNotFoundException e) {
+    //          e.printStackTrace();
+    //      }
+    //      return null;
+    //
+    //      SudokuBoard cloned = (SudokuBoard) super.clone();
+    //      ArrayList<SudokuField> sudokuFieldClone = new ArrayList<>();
+    //      for (SudokuField sudokuField : board) {
+    //          sudokuFieldClone.add(sudokuField.clone());
+    //      }
+    //      cloned.board = sudokuFieldClone;
+    //      return cloned;
+    //  }
+
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {

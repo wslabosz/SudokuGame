@@ -2,6 +2,7 @@ package sudoku;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -72,7 +73,7 @@ class SudokuFieldsTemplateTest {
     }
 
     @Test
-    void testClone() throws CloneNotSupportedException {
+    void testClone() throws IOException, ClassNotFoundException {
         SudokuField[] fields = new SudokuField[SIZE];
         SudokuField field5 = new SudokuField(5);
         for (int i = 0; i < 9; i++) {
@@ -81,9 +82,9 @@ class SudokuFieldsTemplateTest {
         SudokuFieldsTemplate row = new SudokuRow(Arrays.asList(fields));
         SudokuFieldsTemplate col = new SudokuColumn(Arrays.asList(fields));
         SudokuFieldsTemplate box = new SudokuBox(Arrays.asList(fields));
-        SudokuRow sudokuRowClone = (SudokuRow) row.clone();
-        SudokuColumn sudokuColClone = (SudokuColumn) col.clone();
-        SudokuBox sudokuBoxClone = (SudokuBox) box.clone();
+        SudokuRow sudokuRowClone = (SudokuRow) row.deepClone();
+        SudokuColumn sudokuColClone = (SudokuColumn) col.deepClone();
+        SudokuBox sudokuBoxClone = (SudokuBox) box.deepClone();
         assertNotSame(row, sudokuRowClone);
         assertEquals(row.getClass(), sudokuRowClone.getClass());
         assertEquals(sudokuRowClone, row);
