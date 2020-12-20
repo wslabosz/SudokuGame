@@ -2,6 +2,7 @@ package sudoku;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -11,10 +12,11 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class SudokuBoardWindowControl {
+public class SudokuBoardWindowControl implements Initializable {
 
     public SudokuBoardWindowControl() {
     }
@@ -26,10 +28,11 @@ public class SudokuBoardWindowControl {
 
     private final SudokuSolver solver = new BacktrackingSudokuSolver();
     private SudokuBoard board;
-    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("sudoku/Language");
+    private ResourceBundle resourceBundle;
 
-    @FXML
-    private void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle bundle) {
+        resourceBundle = bundle;
     }
 
     public void initData(Difficulty diff) {
@@ -72,7 +75,7 @@ public class SudokuBoardWindowControl {
                     }
                 });
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
-                sudokuBoardGrid.add(textField, i, j);
+                sudokuBoardGrid.add(textField, j, i);
             }
         }
     }
@@ -115,4 +118,5 @@ public class SudokuBoardWindowControl {
         }
         return change;
     }
+
 }
