@@ -42,7 +42,7 @@ public class ResourceController {
     }
 
     public static String get(final String key, final Object... args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("messages", getLocale());
+        ResourceBundle bundle = ResourceBundle.getBundle("sudoku/Language", getLocale());
         return MessageFormat.format(bundle.getString(key), args);
     }
 
