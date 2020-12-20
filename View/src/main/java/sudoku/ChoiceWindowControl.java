@@ -64,12 +64,12 @@ public class ChoiceWindowControl implements Initializable {
     }
 
     public void changeLangEn(ActionEvent actionEvent) {
-        enLangButton.setOnAction((evt) -> switchLanguage(Locale.ENGLISH));
+        switchLanguage(Locale.ENGLISH);
         enLangButton.setSelected(true);
     }
 
     public void changeLangPl(ActionEvent actionEvent) {
-        plLangButton.setOnAction((evt) -> switchLanguage(new Locale("pl", "PL")));
+        switchLanguage(new Locale("pl", "PL"));
         plLangButton.setSelected(true);
     }
 }
