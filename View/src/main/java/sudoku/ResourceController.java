@@ -41,13 +41,13 @@ public class ResourceController {
         return locale;
     }
 
-    public static String get(final String key, final Object... args) {
-        ResourceBundle bundle = ResourceBundle.getBundle("sudoku/Language", getLocale());
+    public static String get(String resBundle, String key, final Object... args) {
+        ResourceBundle bundle = ResourceBundle.getBundle(resBundle, getLocale());
         return MessageFormat.format(bundle.getString(key), args);
     }
 
-    public static StringBinding createStringBinding(final String key, Object... args) {
-        return Bindings.createStringBinding(() -> get(key, args), locale);
+    public static StringBinding createStringBinding(String resBundle, final String key, Object... args) {
+        return Bindings.createStringBinding(() -> get(resBundle, key, args), locale);
     }
 
     public static StringBinding createStringBinding(Callable<String> func) {
@@ -60,9 +60,9 @@ public class ResourceController {
         return label;
     }
 
-    public static Button buttonForKey(final String key, final Object... args) {
+    public static Button buttonForKey(String resBundle, final String key, final Object... args) {
         Button button = new Button();
-        button.textProperty().bind(createStringBinding(key, args));
+        button.textProperty().bind(createStringBinding(resBundle, key, args));
         return button;
     }
 }

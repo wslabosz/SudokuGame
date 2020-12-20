@@ -1,6 +1,6 @@
 package sudoku.i18n.authors;
 
-public class authors extends java.util.ListResourceBundle {
+public class authors_en extends java.util.ListResourceBundle {
     @Override
     protected Object[][] getContents() {
         return new Object[][] {

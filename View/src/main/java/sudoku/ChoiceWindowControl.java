@@ -1,12 +1,9 @@
 package sudoku;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 
 import java.io.IOException;
 import java.net.URL;
@@ -18,21 +15,26 @@ public class ChoiceWindowControl implements Initializable {
     public ChoiceBox<String> difficultyChoiceBox = new ChoiceBox<>();
     public RadioButton enLangButton;
     public RadioButton plLangButton;
+    final private ToggleGroup group = new ToggleGroup();
+    public Label diffLabel;
+    public Button buttonStartGame;
 
     private ResourceBundle resourceBundle;
+    private ResourceBundle autorzy = ResourceBundle.getBundle("sudoku.i18n.authors.authors", ResourceController.getLocale());
     private Difficulty diff;
 
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
-        final ToggleGroup group = new ToggleGroup();
+        resourceBundle = bundle;
+        enLangButton.textProperty().bind(ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "radioButtonEn"));
+        plLangButton.textProperty().bind(ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "radioButtonPl"));
+        diffLabel.textProperty().bind(ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "ChooseDiff"));
+        buttonStartGame.textProperty().bind(ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "startButton"));
         enLangButton.setToggleGroup(group);
         plLangButton.setToggleGroup(group);
         plLangButton.setSelected(true);
-        resourceBundle = bundle;
-        difficultyChoiceBox.itemsProperty().set(FXCollections.observableArrayList(
-                ResourceController.get(Difficulty.Easy.toString()),
-                ResourceController.get(Difficulty.Normal.toString()),
-                ResourceController.get(Difficulty.Hard.toString())));
+        //difficultyChoiceBox.getItems().set();
+        diffLabel.textProperty().bind(ResourceController.createStringBinding(autorzy.getBaseBundleName(), "authors"));
         //difficultyChoiceBox.itemsProperty().bind(
 
 //        difficultyChoiceBox.getItems().addAll(
@@ -56,17 +58,17 @@ public class ChoiceWindowControl implements Initializable {
         }
     }
 
+    private void switchLanguage(Locale locale) {
+        ResourceController.setLocale(locale);
+    }
+
     public void changeLangEn(ActionEvent actionEvent) {
-        if (!enLangButton.isSelected()) {
-            enLangButton.setSelected(true);
-            ResourceController.setLocale(Locale.ENGLISH);
-        }
+        enLangButton.setOnAction((evt) -> switchLanguage(Locale.ENGLISH));
+        enLangButton.setSelected(true);
     }
 
     public void changeLangPl(ActionEvent actionEvent) {
-        if (!plLangButton.isSelected()) {
-            plLangButton.setSelected(true);
-            ResourceController.setLocale(new Locale("pl","PL"));
-        }
+        plLangButton.setOnAction((evt) -> switchLanguage(new Locale("pl", "PL")));
+        plLangButton.setSelected(true);
     }
 }
