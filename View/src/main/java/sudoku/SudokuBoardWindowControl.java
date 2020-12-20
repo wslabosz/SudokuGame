@@ -4,22 +4,26 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Paint;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
-import java.awt.*;
 import java.io.File;
-import java.lang.reflect.Array;
+import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
 public class SudokuBoardWindowControl implements Initializable {
+
+    @FXML
+    private Button saveSudokuToFileButton;
+    @FXML
+    private Button readSudokuFromFileButton;
 
     public SudokuBoardWindowControl() {
     }
@@ -31,18 +35,23 @@ public class SudokuBoardWindowControl implements Initializable {
 
     private final SudokuSolver solver = new BacktrackingSudokuSolver();
     private SudokuBoard board;
+    private SudokuBoard initialState;
     private ResourceBundle resourceBundle;
 
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         resourceBundle = bundle;
+        saveSudokuToFileButton.textProperty().bind
+                (ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "saveButton"));
+        readSudokuFromFileButton.textProperty().bind
+                (ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "loadButton"));
     }
 
-    public void initData(Difficulty diff) {
+    public void initData(Difficulty diff) throws IOException, ClassNotFoundException {
         board = new SudokuBoard(solver, diff);
         board.solveGame();
-        //SudokuBoard boardCopy = board.clone();
         diff.eraseFields(board);
+        initialState = board.deepClone();
         fillGrid();
     }
 
@@ -63,21 +72,6 @@ public class SudokuBoardWindowControl implements Initializable {
                         textField.setText(e.getText());
                     }
                 });
-//                textField.setOnKeyReleased(e -> {
-//                    switch (e.getCode()) {
-//                        case DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9:
-//                            int insertedNumber = Integer.parseInt(textField.getText());
-//                            int row = GridPane.getRowIndex(textField);
-//                            int column = GridPane.getColumnIndex(textField);
-//                            if (insertedNumber != board.getNumberFromPosition(row, column)) {
-//                                board.setNumber(row, column, insertedNumber);
-//                            }
-//                            System.out.println(board.getNumberFromPosition(row, column));
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                });
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
                 textField.textProperty().addListener(((observableValue, oldValue, newValue) -> {
                     try {

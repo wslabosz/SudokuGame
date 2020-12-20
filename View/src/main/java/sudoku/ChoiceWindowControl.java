@@ -1,12 +1,8 @@
 package sudoku;
 
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -45,19 +41,9 @@ public class ChoiceWindowControl implements Initializable {
         plLangButton.setSelected(true);
         authorsLabel.textProperty().bind(ResourceController.createStringBinding(autorzy.getBaseBundleName(), "authors"));
         difficultyChoiceBox.itemsProperty().bind(Bindings.createObjectBinding(() ->
-                FXCollections.observableArrayList(ResourceController.get(resourceBundle.getBaseBundleName(), "Easy")
-                        , ResourceController.get(resourceBundle.getBaseBundleName(), "Normal"),
+                FXCollections.observableArrayList(ResourceController.get(resourceBundle.getBaseBundleName(), "Easy"),
+                        ResourceController.get(resourceBundle.getBaseBundleName(), "Normal"),
                         ResourceController.get(resourceBundle.getBaseBundleName(), "Hard")), locale));
-
-
-//        difficultyChoiceBox.getItems().addAll(
-//                Label l1 = new Label();
-//
-//                resourceBundle.getString(Difficulty.Easy.toString()),
-//                resourceBundle.getString(Difficulty.Normal.toString()),
-//                resourceBundle.getString(Difficulty.Hard.toString())
-//        );
-
     }
 
     @FXML

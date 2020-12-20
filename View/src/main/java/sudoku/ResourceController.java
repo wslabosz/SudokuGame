@@ -1,12 +1,10 @@
 package sudoku;
 
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.StringBinding;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
@@ -55,10 +53,6 @@ public class ResourceController {
 
     public static StringBinding createStringBinding(String resBundle, final String key, Object... args) {
         return Bindings.createStringBinding(() -> get(resBundle, key, args), locale);
-    }
-
-    public static void KURWA(List<String> lista, ObservableList<String> observ) {
-        Bindings.bindContent(lista, observ);
     }
 
     public static StringBinding createStringBinding(Callable<String> func) {
