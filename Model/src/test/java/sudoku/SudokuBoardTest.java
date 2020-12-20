@@ -198,5 +198,6 @@ class SudokuBoardTest {
         Difficulty hard = Difficulty.Hard;
         hard.eraseFields(sudokuBoard3);
         assertEquals(58, checkZeroValues(sudokuBoard3));
+        assertEquals(sudokuBoard1.getDifficulty(), easy);
     }
 }

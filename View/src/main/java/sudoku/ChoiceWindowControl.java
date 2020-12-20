@@ -47,7 +47,7 @@ public class ChoiceWindowControl implements Initializable {
     }
 
     @FXML
-    public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException {
+    public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
         if (difficultyChoiceBox.getSelectionModel().getSelectedItem() != null) {
             if (difficultyChoiceBox.getSelectionModel().getSelectedItem().equals(ResourceController.get(resourceBundle.getBaseBundleName(), "Easy"))) {
                 diff = Difficulty.Easy;

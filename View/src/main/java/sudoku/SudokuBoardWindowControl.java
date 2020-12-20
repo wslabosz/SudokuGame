@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -19,24 +20,24 @@ import java.util.ResourceBundle;
 
 
 public class SudokuBoardWindowControl implements Initializable {
-
+    @FXML
+    private Button guzior;
     @FXML
     private Button saveSudokuToFileButton;
     @FXML
     private Button readSudokuFromFileButton;
-
-    public SudokuBoardWindowControl() {
-    }
-    private static final String REGEX_VALID_NUMBER = "[1-9]?";
     @FXML
     private GridPane sudokuBoardGrid;
     @FXML
     private AnchorPane anchorPane;
 
+    private static final String REGEX_VALID_NUMBER = "[1-9]?";
     private final SudokuSolver solver = new BacktrackingSudokuSolver();
     private SudokuBoard board;
     private SudokuBoard initialState;
     private ResourceBundle resourceBundle;
+
+    public SudokuBoardWindowControl() { }
 
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
@@ -73,14 +74,35 @@ public class SudokuBoardWindowControl implements Initializable {
                     }
                 });
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
-                textField.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+                textField.textProperty().addListener((observableValue, oldValue, newValue) -> {
                     try {
                         board.setNumber(GridPane.getRowIndex(textField), GridPane.getColumnIndex(textField), Integer.parseInt(newValue));
                     } catch (NumberFormatException ex) {
                         board.setNumber(GridPane.getRowIndex(textField), GridPane.getColumnIndex(textField), 0);
                     }
-                }));
+                });
                 sudokuBoardGrid.add(textField, j, i);
+            }
+        }
+    }
+
+    public void resetGame(ActionEvent actionEvent) {
+        for (Node node : sudokuBoardGrid.getChildren().subList(1, 82)) {
+            if(initialState.getNumberFromPosition(GridPane.getRowIndex(node), GridPane.getColumnIndex(node)) == 0) {
+                ((TextField) node).setText("");
+            }
+        }
+    }
+
+    private void clearGrid() {
+        for (Node c : sudokuBoardGrid.getChildren().subList(1, 82)) {
+            TextField field = (TextField) c;
+            field.setDisable(false);
+            if (board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) != 0) {
+                field.setDisable(true);
+                field.setText(String.valueOf(board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c))));
+            } else {
+                field.setText("");
             }
         }
     }
@@ -111,9 +133,10 @@ public class SudokuBoardWindowControl implements Initializable {
         if (selectedFile != null) {
             try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath())) {
                 board = fileDao.read();
-                fillGrid();
+                initialState = board.deepClone();
             }
         }
+        clearGrid();
     }
 
     private TextFormatter.Change filter(TextFormatter.Change change) {

@@ -38,10 +38,11 @@ public class FXMLStageControl {
         stage.show();
     }
 
-    public static void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff) throws IOException {
+    public static void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff) throws IOException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(FXMLStageControl.class.getResource(filePath), resourceBundle);
         stage.setScene(new Scene(loader.load()));
         stage.titleProperty().bind(ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "windowTitle"));
+        stage.sizeToScene();
         stage.setResizable(false);
         SudokuBoardWindowControl controller = loader.getController();
         controller.initData(diff);
