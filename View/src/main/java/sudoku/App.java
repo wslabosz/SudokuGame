@@ -4,15 +4,16 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class App extends Application {
-
-    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("sudoku/Language");
+    private final Locale locale = new Locale("pl", "PL");
+    private final ResourceBundle resourceBundle = ResourceBundle.getBundle("sudoku/Language", locale);
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLStageControl.setStage(stage, "choiceWindow.fxml", resourceBundle.getString("windowTitle"), resourceBundle);
+        FXMLStageControl.setStage(stage, "choiceWindow.fxml", resourceBundle);
     }
     public static void main(String[] args) {
         launch();

@@ -2,8 +2,8 @@ package sudoku;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ChoiceBox;
+
 import java.io.IOException;
 import java.util.ResourceBundle;
 
@@ -32,7 +32,7 @@ public class ChoiceWindowControl {
     }
 
     @FXML
-    public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException, CloneNotSupportedException {
+    public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException {
         if (difficultyChoiceBox.getSelectionModel().getSelectedItem() != null) {
             if (difficultyChoiceBox.getSelectionModel().getSelectedItem().equals(easy)) {
                 diff = Difficulty.Easy;

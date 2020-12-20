@@ -43,6 +43,10 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         this.sudokuSolver = sudokuSolver;
     }
 
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
     public int getNumberFromPosition(int xpos, int ypos) {
         return board.get(xpos * 9 + ypos).getFieldValue();
     }
@@ -136,12 +140,14 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
 
 
     public SudokuBoard deepClone() throws IOException, ClassNotFoundException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(this);
-        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-        ObjectInputStream ois = new ObjectInputStream(bis);
-        return (SudokuBoard) ois.readObject();
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos)) {
+            out.writeObject(this);
+            try (ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+                 ObjectInputStream ois = new ObjectInputStream(bis)) {
+                return (SudokuBoard) ois.readObject();
+            }
+        }
     }
 
     //  @Override

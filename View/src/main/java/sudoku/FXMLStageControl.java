@@ -29,19 +29,20 @@ public class FXMLStageControl {
         stage.show();
     }
 
-    public static void setStage(Stage stage, String filePath, String title, ResourceBundle resourceBundle) throws IOException {
+    public static void setStage(Stage stage, String filePath, ResourceBundle resourceBundle) throws IOException {
         setStage(stage);
         stage.setScene(new Scene(loadFXML(filePath, resourceBundle)));
-        stage.setTitle(title);
+        stage.titleProperty().bind(ResourceController.createStringBinding("windowTitle"));
         stage.sizeToScene();
         stage.setResizable(false);
         stage.show();
     }
 
-    public static void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff) throws IOException, CloneNotSupportedException {
+    public static void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff) throws IOException {
         FXMLLoader loader = new FXMLLoader(FXMLStageControl.class.getResource(filePath), resourceBundle);
-        Stage stage = new Stage();
         stage.setScene(new Scene(loader.load()));
+        stage.titleProperty().bind(ResourceController.createStringBinding("windowTitle"));
+        stage.setResizable(false);
         SudokuBoardWindowControl controller = loader.getController();
         controller.initData(diff);
         stage.show();

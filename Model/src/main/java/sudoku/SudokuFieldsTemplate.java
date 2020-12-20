@@ -57,12 +57,14 @@ public abstract class SudokuFieldsTemplate implements Cloneable, Serializable {
     }
 
     public SudokuFieldsTemplate deepClone() throws IOException, ClassNotFoundException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ObjectOutputStream out = new ObjectOutputStream(bos);
-        out.writeObject(this);
-        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
-        ObjectInputStream ois = new ObjectInputStream(bis);
-        return (SudokuFieldsTemplate) ois.readObject();
+        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
+             ObjectOutputStream out = new ObjectOutputStream(bos)) {
+            out.writeObject(this);
+            try (ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+                 ObjectInputStream ois = new ObjectInputStream(bis)) {
+                return (SudokuFieldsTemplate) ois.readObject();
+            }
+        }
     }
 
     //      SudokuFieldsTemplate cloned = (SudokuFieldsTemplate) super.clone();
