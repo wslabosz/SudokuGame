@@ -18,6 +18,7 @@ public class ChoiceWindowControl implements Initializable {
     final private ToggleGroup group = new ToggleGroup();
     public Label diffLabel;
     public Button buttonStartGame;
+    public Label authorsLabel;
 
     private ResourceBundle resourceBundle;
     private ResourceBundle autorzy = ResourceBundle.getBundle("sudoku.i18n.authors.authors", ResourceController.getLocale());
@@ -34,7 +35,7 @@ public class ChoiceWindowControl implements Initializable {
         plLangButton.setToggleGroup(group);
         plLangButton.setSelected(true);
         //difficultyChoiceBox.getItems().set();
-        diffLabel.textProperty().bind(ResourceController.createStringBinding(autorzy.getBaseBundleName(), "authors"));
+        authorsLabel.textProperty().bind(ResourceController.createStringBinding(autorzy.getBaseBundleName(), "authors"));
         //difficultyChoiceBox.itemsProperty().bind(
 
 //        difficultyChoiceBox.getItems().addAll(
