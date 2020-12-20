@@ -6,13 +6,16 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 
+import java.awt.*;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -50,9 +53,10 @@ public class SudokuBoardWindowControl implements Initializable {
                 textField.setAlignment(Pos.CENTER);
                 textField.setMinSize(50, 58);
                 textField.setFont(Font.font(20));
+                textField.setOpacity(1);
                 if (board.getNumberFromPosition(i, j) != 0) {
-                    textField.setDisable(true);
                     textField.setText(String.valueOf(board.getNumberFromPosition(i, j)));
+                    textField.setDisable(true);
                 }
                 textField.setOnKeyPressed(e -> {
                     if (e.getText().matches("[1-9]")) {
@@ -113,7 +117,6 @@ public class SudokuBoardWindowControl implements Initializable {
         if (selectedFile != null) {
             try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath())) {
                 board = fileDao.read();
-                FXMLStageControl.setScene("sudokuBoardWindow.fxml", resourceBundle);
                 fillGrid();
             }
         }
