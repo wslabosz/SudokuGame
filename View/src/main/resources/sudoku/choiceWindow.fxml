@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -13,7 +11,17 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="difficultyChoiceBox" layoutX="182.0" layoutY="128.0" prefHeight="26.0" prefWidth="236.0"/>
+      <ChoiceBox fx:id="difficultyChoiceBox" layoutX="182.0" layoutY="128.0" prefHeight="26.0" prefWidth="236.0" />
       <Button fx:id="buttonStartGame" layoutX="280.0" layoutY="200.0" mnemonicParsing="false" onAction="#onActionButtonStartGame" text="start" />
+      <RadioButton fx:id="enLangButton" layoutX="20.0" layoutY="10.0" mnemonicParsing="false" onAction="#changeLangEn" text="%radioButtonEn">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </RadioButton>
+      <RadioButton fx:id="plLangButton" layoutX="20.0" layoutY="30.0" mnemonicParsing="false" onAction="#changeLangPl" text="%radioButtonPl">
+         <font>
+            <Font name="Comic Sans MS" size="12.0" />
+         </font>
+      </RadioButton>
    </children>
 </AnchorPane>

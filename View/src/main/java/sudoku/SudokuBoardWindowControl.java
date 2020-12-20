@@ -59,22 +59,29 @@ public class SudokuBoardWindowControl implements Initializable {
                         textField.setText(e.getText());
                     }
                 });
-                textField.setOnKeyReleased(e -> {
-                    switch (e.getCode()) {
-                        case DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9:
-                            int insertedNumber = Integer.parseInt(textField.getText());
-                            int row = GridPane.getRowIndex(textField);
-                            int column = GridPane.getColumnIndex(textField);
-                            if (insertedNumber != board.getNumberFromPosition(row, column)) {
-                                board.setNumber(row, column, insertedNumber);
-                            }
-                            System.out.println(board.getNumberFromPosition(row, column));
-                            break;
-                        default:
-                            break;
-                    }
-                });
+//                textField.setOnKeyReleased(e -> {
+//                    switch (e.getCode()) {
+//                        case DIGIT1, DIGIT2, DIGIT3, DIGIT4, DIGIT5, DIGIT6, DIGIT7, DIGIT8, DIGIT9:
+//                            int insertedNumber = Integer.parseInt(textField.getText());
+//                            int row = GridPane.getRowIndex(textField);
+//                            int column = GridPane.getColumnIndex(textField);
+//                            if (insertedNumber != board.getNumberFromPosition(row, column)) {
+//                                board.setNumber(row, column, insertedNumber);
+//                            }
+//                            System.out.println(board.getNumberFromPosition(row, column));
+//                            break;
+//                        default:
+//                            break;
+//                    }
+//                });
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
+                textField.textProperty().addListener(((observableValue, oldValue, newValue) -> {
+                    try {
+                        board.setNumber(GridPane.getRowIndex(textField), GridPane.getColumnIndex(textField), Integer.parseInt(newValue));
+                    } catch (NumberFormatException ex) {
+                        board.setNumber(GridPane.getRowIndex(textField), GridPane.getColumnIndex(textField), 0);
+                    }
+                }));
                 sudokuBoardGrid.add(textField, j, i);
             }
         }
