@@ -1,5 +1,7 @@
 package sudoku;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -34,15 +36,7 @@ public class ChoiceWindowControl implements Initializable {
         enLangButton.setToggleGroup(group);
         plLangButton.setToggleGroup(group);
         plLangButton.setSelected(true);
-        //difficultyChoiceBox.getItems().set();
         authorsLabel.textProperty().bind(ResourceController.createStringBinding(autorzy.getBaseBundleName(), "authors"));
-        //difficultyChoiceBox.itemsProperty().bind(
-
-//        difficultyChoiceBox.getItems().addAll(
-//                resourceBundle.getString(Difficulty.Easy.toString()),
-//                resourceBundle.getString(Difficulty.Normal.toString()),
-//                resourceBundle.getString(Difficulty.Hard.toString())
-//        );
     }
 
     @FXML
