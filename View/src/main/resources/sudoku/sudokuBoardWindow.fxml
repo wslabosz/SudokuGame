@@ -37,15 +37,15 @@
           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
         </padding>
     </GridPane>
-    <Button fx:id="saveSudokuToFileButton" layoutX="640.0" layoutY="440.0" mnemonicParsing="false" onAction="#saveSudokuToFile">
+    <Button fx:id="saveSudokuToFileButton" layoutX="640.0" layoutY="440.0" mnemonicParsing="false" onAction="#saveSudokuToFile" text="%saveButton">
         <font>
           <Font name="Calibri Bold" size="18.0" />
         </font>
     </Button>
-    <Button fx:id="readSudokuFromFileButton" layoutX="634.0" layoutY="500.0" mnemonicParsing="false" onAction="#readSudokuFromFile">
+    <Button fx:id="readSudokuFromFileButton" layoutX="634.0" layoutY="500.0" mnemonicParsing="false" onAction="#readSudokuFromFile" text="%loadButton">
         <font>
           <Font name="Calibri Bold" size="18.0" />
         </font>
     </Button>
-   <Button fx:id="guzior" layoutX="582.0" layoutY="64.0" mnemonicParsing="false" onAction="#resetGame" text="Button" />
+   <Button fx:id="guzior" layoutX="620.0" layoutY="70.0" mnemonicParsing="false" onAction="#resetGame" text="Button" />
 </AnchorPane>

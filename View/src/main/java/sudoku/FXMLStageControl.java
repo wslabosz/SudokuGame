@@ -21,8 +21,8 @@ public class FXMLStageControl {
     }
 
     public static void setScene(String filePath, ResourceBundle resourceBundle) throws IOException {
-        Scene scene = new Scene(loadFXML(filePath, resourceBundle));
-        stage.setScene(scene);
+        stage.setScene(new Scene(loadFXML(filePath, resourceBundle)));
+        stage.titleProperty().setValue(resourceBundle.getString("windowTitle"));
         //scene.getStylesheets().add("sudoku/sudokuBoardWindow.css");
         stage.sizeToScene();
         stage.setResizable(false);
@@ -32,7 +32,7 @@ public class FXMLStageControl {
     public static void setStage(Stage stage, String filePath, ResourceBundle resourceBundle) throws IOException {
         setStage(stage);
         stage.setScene(new Scene(loadFXML(filePath, resourceBundle)));
-        stage.titleProperty().bind(ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "windowTitle"));
+        stage.titleProperty().setValue(resourceBundle.getString("windowTitle"));
         stage.sizeToScene();
         stage.setResizable(false);
         stage.show();
@@ -41,11 +41,12 @@ public class FXMLStageControl {
     public static void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff) throws IOException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(FXMLStageControl.class.getResource(filePath), resourceBundle);
         stage.setScene(new Scene(loader.load()));
-        stage.titleProperty().bind(ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "windowTitle"));
+        stage.titleProperty().setValue(resourceBundle.getString("windowTitle"));
         stage.sizeToScene();
         stage.setResizable(false);
         SudokuBoardWindowControl controller = loader.getController();
         controller.initData(diff);
         stage.show();
     }
+
 }

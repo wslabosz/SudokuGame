@@ -150,28 +150,20 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         }
     }
 
-    //  @Override
-    //  public SudokuBoard clone() throws CloneNotSupportedException {
-    //      try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    //           ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-    //          oos.writeObject(this);
-    //          try (ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-    //               ObjectInputStream ois = new ObjectInputStream(bais)) {
-    //              return (SudokuBoard) ois.readObject();
-    //          }
-    //      } catch (IOException | ClassNotFoundException e) {
-    //          e.printStackTrace();
-    //      }
-    //      return null;
-    //
-    //      SudokuBoard cloned = (SudokuBoard) super.clone();
-    //      ArrayList<SudokuField> sudokuFieldClone = new ArrayList<>();
-    //      for (SudokuField sudokuField : board) {
-    //          sudokuFieldClone.add(sudokuField.clone());
-    //      }
-    //      cloned.board = sudokuFieldClone;
-    //      return cloned;
-    //  }
+//      @Override
+//      public SudokuBoard clone() throws CloneNotSupportedException {
+//          try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//               ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+//              oos.writeObject(this);
+//              try (ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+//                   ObjectInputStream ois = new ObjectInputStream(bais)) {
+//                  return (SudokuBoard) ois.readObject();
+//              }
+//          } catch (IOException | ClassNotFoundException e) {
+//              e.printStackTrace();
+//          }
+//          return null;
+//      }
 
 
     @Override

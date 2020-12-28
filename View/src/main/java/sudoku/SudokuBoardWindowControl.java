@@ -23,10 +23,6 @@ public class SudokuBoardWindowControl implements Initializable {
     @FXML
     private Button guzior;
     @FXML
-    private Button saveSudokuToFileButton;
-    @FXML
-    private Button readSudokuFromFileButton;
-    @FXML
     private GridPane sudokuBoardGrid;
     @FXML
     private AnchorPane anchorPane;
@@ -42,10 +38,6 @@ public class SudokuBoardWindowControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         resourceBundle = bundle;
-        saveSudokuToFileButton.textProperty().bind
-                (ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "saveButton"));
-        readSudokuFromFileButton.textProperty().bind
-                (ResourceController.createStringBinding(resourceBundle.getBaseBundleName(), "loadButton"));
     }
 
     public void initData(Difficulty diff) throws IOException, ClassNotFoundException {
@@ -59,6 +51,7 @@ public class SudokuBoardWindowControl implements Initializable {
     private void fillGrid() {
         for (int i = 0; i < SudokuBoard.SIZE; i++) {
             for (int j = 0; j < SudokuBoard.SIZE; j++) {
+                //ObservableList<TextField> textFieldObservableList = FXCollections.observableArrayList();
                 TextField textField = new TextField();
                 textField.setAlignment(Pos.CENTER);
                 textField.setMinSize(50, 58);
@@ -82,6 +75,13 @@ public class SudokuBoardWindowControl implements Initializable {
                     }
                 });
                 sudokuBoardGrid.add(textField, j, i);
+//                textFieldObservableList.add(textField);
+//                ObservableNumberValue numberValue;
+//                for (Node node : sudokuBoardGrid.getChildren().subList(1, 82)) {
+//                    numberValue = board.getNumberFromPosition(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
+//                    node.accessibleTextProperty().bind(Bindings.createIntegerBinding(Integer.parseInt
+//                            (textFieldObservableList.toString()), board.getNumberFromPosition(GridPane.getRowIndex(node), GridPane.getColumnIndex(node)));
+//                }
             }
         }
     }
