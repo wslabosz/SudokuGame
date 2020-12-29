@@ -48,13 +48,17 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     }
 
     public int getNumberFromPosition(int xpos, int ypos) {
-        return board.get(xpos * 9 + ypos).getFieldValue();
+        return board.get(xpos * 9 + ypos).getNumber();
+    }
+
+    public SudokuField getSudokuField(int xpos, int ypos) {
+        return board.get(xpos * 9 + ypos);
     }
 
     public void setNumber(int xpos, int ypos, int number) {
         //exception
         try {
-            board.get(xpos * 9 + ypos).setFieldValue(number);
+            board.get(xpos * 9 + ypos).setNumber(number);
         } catch (IndexOutOfBoundsException ex) {
             System.out.println(ex.getMessage());
         }

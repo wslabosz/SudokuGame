@@ -200,4 +200,12 @@ class SudokuBoardTest {
         assertEquals(58, checkZeroValues(sudokuBoard3));
         assertEquals(sudokuBoard1.getDifficulty(), easy);
     }
+
+    @Test
+    void getSudokuField() throws IOException, ClassNotFoundException {
+        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+        board.solveGame();
+        SudokuBoard clone = board.deepClone();
+        assertEquals(board.getSudokuField(0, 0), clone.getSudokuField(0, 0));
+    }
 }

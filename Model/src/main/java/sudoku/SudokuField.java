@@ -2,6 +2,7 @@ package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
@@ -15,11 +16,11 @@ public class SudokuField implements Cloneable, Comparable<SudokuField>, Serializ
         this.value = value;
     }
 
-    public int getFieldValue() {
+    public int getNumber() {
         return this.value;
     }
 
-    public void setFieldValue(int value) {
+    public void setNumber(int value) {
         if (value < 0 || value > 9) {
             throw new InputMismatchException("Number must be in range from 0 to 9");
         }

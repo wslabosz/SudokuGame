@@ -22,9 +22,9 @@ public abstract class SudokuFieldsTemplate implements Cloneable, Serializable {
     public boolean verify() {
         Set<Integer> numbers = new HashSet<>();
         for (SudokuField value : fields) {
-            if (value.getFieldValue() != 0) {
+            if (value.getNumber() != 0) {
                 // jesli pojawi sie powtorzenie ktore nie jest zerem to zwracamy false
-                if (!numbers.add(value.getFieldValue())) {
+                if (!numbers.add(value.getNumber())) {
                     return false;
                 }
             }

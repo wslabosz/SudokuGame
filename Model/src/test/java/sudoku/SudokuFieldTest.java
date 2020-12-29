@@ -42,10 +42,10 @@ class SudokuFieldTest {
     public void setWrongFieldValueTest() {
         SudokuField field = new SudokuField(0);
         Assertions.assertThrows(InputMismatchException.class, () -> {
-            field.setFieldValue(-1);
+            field.setNumber(-1);
         });
         Assertions.assertThrows(InputMismatchException.class, () -> {
-            field.setFieldValue(10);
+            field.setNumber(10);
         });
     }
 
@@ -69,7 +69,7 @@ class SudokuFieldTest {
         assertNotSame(field, cloned);
         assertEquals(field.getClass(), cloned.getClass());
         assertEquals(cloned, field);
-        field.setFieldValue(3);
+        field.setNumber(3);
         assertNotEquals(cloned, field);
     }
 }

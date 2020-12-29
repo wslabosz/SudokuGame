@@ -1,5 +1,7 @@
 package sudoku;
 
+import javafx.beans.property.adapter.JavaBeanIntegerProperty;
+import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,9 +14,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -38,6 +41,9 @@ public class SudokuBoardWindowControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         resourceBundle = bundle;
+        if(board != null) {
+            fillGrid();
+        }
     }
 
     public void initData(Difficulty diff) throws IOException, ClassNotFoundException {
@@ -49,39 +55,28 @@ public class SudokuBoardWindowControl implements Initializable {
     }
 
     private void fillGrid() {
+        StringConverter<Number> converter = new NumberStringConverter();
         for (int i = 0; i < SudokuBoard.SIZE; i++) {
             for (int j = 0; j < SudokuBoard.SIZE; j++) {
-                //ObservableList<TextField> textFieldObservableList = FXCollections.observableArrayList();
                 TextField textField = new TextField();
                 textField.setAlignment(Pos.CENTER);
                 textField.setMinSize(50, 58);
                 textField.setFont(Font.font(20));
                 textField.setOpacity(1);
-                if (board.getNumberFromPosition(i, j) != 0) {
-                    textField.setText(String.valueOf(board.getNumberFromPosition(i, j)));
-                    textField.setDisable(true);
-                }
-                textField.setOnKeyPressed(e -> {
-                    if (e.getText().matches("[1-9]")) {
-                        textField.setText(e.getText());
-                    }
-                });
-                textField.setTextFormatter(new TextFormatter<>(this::filter));
-                textField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-                    try {
-                        board.setNumber(GridPane.getRowIndex(textField), GridPane.getColumnIndex(textField), Integer.parseInt(newValue));
-                    } catch (NumberFormatException ex) {
-                        board.setNumber(GridPane.getRowIndex(textField), GridPane.getColumnIndex(textField), 0);
-                    }
-                });
                 sudokuBoardGrid.add(textField, j, i);
-//                textFieldObservableList.add(textField);
-//                ObservableNumberValue numberValue;
-//                for (Node node : sudokuBoardGrid.getChildren().subList(1, 82)) {
-//                    numberValue = board.getNumberFromPosition(GridPane.getRowIndex(node), GridPane.getColumnIndex(node));
-//                    node.accessibleTextProperty().bind(Bindings.createIntegerBinding(Integer.parseInt
-//                            (textFieldObservableList.toString()), board.getNumberFromPosition(GridPane.getRowIndex(node), GridPane.getColumnIndex(node)));
-//                }
+                try {
+                    JavaBeanIntegerPropertyBuilder builder = JavaBeanIntegerPropertyBuilder.create();
+                    JavaBeanIntegerProperty integerProperty = builder.bean(board.getSudokuField(i, j)).name("number").build();
+                    textField.textProperty().bindBidirectional(integerProperty, converter);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                }
+                if (board.getNumberFromPosition(i, j) != 0) {
+                    textField.setDisable(true);
+                } else {
+                    textField.textProperty().set("");
+                }
+                textField.setTextFormatter(new TextFormatter<>(this::filter));
             }
         }
     }
@@ -99,10 +94,14 @@ public class SudokuBoardWindowControl implements Initializable {
             TextField field = (TextField) c;
             field.setDisable(false);
             if (board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) != 0) {
-                field.setDisable(true);
                 field.setText(String.valueOf(board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c))));
             } else {
                 field.setText("");
+            }
+            if (board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) ==
+                    initialState.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) &&
+                    board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) != 0) {
+                field.setDisable(true);
             }
         }
     }
@@ -116,8 +115,12 @@ public class SudokuBoardWindowControl implements Initializable {
         );
         File selectedFile = fileChooser.showSaveDialog(anchorPane.getScene().getWindow());
         if (selectedFile != null) {
-            try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath())) {
+            try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath());
+                    FileOutputStream fos = new FileOutputStream(selectedFile, true);
+                    ObjectOutputStream oos = new ObjectOutputStream(fos)) {
                 fileDao.write(board);
+                oos.writeObject(initialState);
+                System.out.println(initialState.toString());
             }
         }
     }
@@ -131,9 +134,12 @@ public class SudokuBoardWindowControl implements Initializable {
         );
         File selectedFile = fileChooser.showOpenDialog(anchorPane.getScene().getWindow());
         if (selectedFile != null) {
-            try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath())) {
-                board = fileDao.read();
-                initialState = board.deepClone();
+            try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath());
+                 FileInputStream fis = new FileInputStream(selectedFile);
+                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                board = (SudokuBoard) ois.readObject();
+                initialState = (SudokuBoard) ois.readObject();
+                System.out.println(initialState.toString());
             }
         }
         clearGrid();
