@@ -1,6 +1,7 @@
 package sudoku;
 
 import org.junit.jupiter.api.*;
+import sudoku.exceptions.WrongFieldValueSudokuException;
 
 import java.io.IOException;
 import java.util.Arrays;

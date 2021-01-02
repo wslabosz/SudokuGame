@@ -2,6 +2,10 @@ package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudoku.exceptions.WrongFieldValueSudokuException;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.ByteArrayInputStream;
@@ -14,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable {
+    private static final Logger logger = LoggerFactory.getLogger(SudokuBoard.class);
     public static final int SIZE = 9;
     private final List<SudokuField> board;
     private final transient SudokuSolver sudokuSolver;
@@ -60,7 +65,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         try {
             board.get(xpos * 9 + ypos).setNumber(number);
         } catch (IndexOutOfBoundsException ex) {
-            System.out.println(ex.getMessage());
+            logger.debug("Index out of Bounds ex");
         }
     }
 
@@ -178,7 +183,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
                     throw new WrongFieldValueSudokuException("Inserted invalid value");
                 }
             } catch (WrongFieldValueSudokuException ex) {
-                ex.getMessage();
+                logger.debug("Wrong value inserted");
             }
         }
     }

@@ -1,5 +1,7 @@
 package sudoku;
 
+import sudoku.exceptions.OperationOnFileException;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;

@@ -1,6 +1,7 @@
 package sudoku;
 
 import org.junit.jupiter.api.Test;
+import sudoku.exceptions.OperationOnFileException;
 
 import java.io.File;
 
