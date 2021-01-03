@@ -9,11 +9,11 @@ public class DaoException extends IOException {
 
     private static final ResourceBundle messages;
     //Message keys
-    public final String NULL_NAME = "null.name";
+    public static final String NULL_NAME = "null.name";
 
     static {
         Locale locale = Locale.getDefault(Locale.Category.DISPLAY);
-        messages = ResourceBundle.getBundle("D:\\Projects\\2rok\\kompo\\Laby\\mkw_pn_1330_06\\View\\src\\main\\resources\\sudoku\\exceptions", locale);
+        messages = ResourceBundle.getBundle("exceptions", locale);
     }
 
     public DaoException(String message) {

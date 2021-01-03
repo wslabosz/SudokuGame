@@ -1,6 +1,7 @@
 package sudoku;
 
 import org.junit.jupiter.api.*;
+import sudoku.exceptions.ApplicationExpection;
 import sudoku.exceptions.WrongFieldValueSudokuException;
 
 import java.io.IOException;
@@ -171,7 +172,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void testClone() throws IOException, ClassNotFoundException {
+    void testClone() throws ApplicationExpection, ClassNotFoundException {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
         SudokuBoard clone = board.deepClone();
@@ -203,7 +204,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void getSudokuField() throws IOException, ClassNotFoundException {
+    void getSudokuField() throws ApplicationExpection, ClassNotFoundException {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
         SudokuBoard clone = board.deepClone();
