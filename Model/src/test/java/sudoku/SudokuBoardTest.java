@@ -99,17 +99,17 @@ class SudokuBoardTest {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         try {
             board.setNumber(0, 0, 159);
-        } catch (InputMismatchException ex) {
+        } catch (WrongFieldValueSudokuException ex) {
             assertEquals(ex.getMessage(), "Number must be in range from 0 to 9");
         }
         try {
             board.setNumber(0,0, -159);
-        } catch (InputMismatchException ex) {
+        } catch (WrongFieldValueSudokuException ex) {
             assertEquals(ex.getMessage(), "Number must be in range from 0 to 9");
         }
         try {
             board.setNumber(100, 100, 5);
-        } catch (IndexOutOfBoundsException ex) {
+        } catch (WrongFieldValueSudokuException ex) {
             assertEquals(ex.getMessage(), "Index out of bounds");
         }
     }

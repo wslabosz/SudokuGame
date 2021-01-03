@@ -2,6 +2,7 @@ package sudoku;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import sudoku.exceptions.WrongFieldValueSudokuException;
 
 import java.util.InputMismatchException;
 
@@ -41,10 +42,10 @@ class SudokuFieldTest {
     @Test
     public void setWrongFieldValueTest() {
         SudokuField field = new SudokuField(0);
-        Assertions.assertThrows(InputMismatchException.class, () -> {
+        Assertions.assertThrows(WrongFieldValueSudokuException.class, () -> {
             field.setNumber(-1);
         });
-        Assertions.assertThrows(InputMismatchException.class, () -> {
+        Assertions.assertThrows(WrongFieldValueSudokuException.class, () -> {
             field.setNumber(10);
         });
     }
