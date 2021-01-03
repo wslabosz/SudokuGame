@@ -79,6 +79,13 @@ public class SudokuBoardWindowControl implements Initializable {
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
             }
         }
+//        for (int i = 0; i < SudokuBoard.SIZE; i++) {
+//            for (int j = 0; j < SudokuBoard.SIZE; j++) {
+//                if (initialState.getNumberFromPosition(i, j) != 0) {
+//                    sudokuBoardGrid.getChildren().get(9 * i + j).setDisable(true);
+//                }
+//            }
+//        }
     }
 
     public void resetGame(ActionEvent actionEvent) {
