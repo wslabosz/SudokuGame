@@ -62,7 +62,7 @@ class SudokuBoardTest {
     @Test
     void SudokuCheck() {
         SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
-        sudoku.setListening(true);
+        //sudoku.setListening(true);
         try {
             sudoku.solveGame();
         } catch (WrongFieldValueSudokuException ex) {

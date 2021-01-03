@@ -65,7 +65,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         try {
             board.get(xpos * 9 + ypos).setNumber(number);
         } catch (IndexOutOfBoundsException ex) {
-            logger.debug("Index out of Bounds ex");
+            logger.debug("Index out of Bounds ex", ex);
         }
     }
 
@@ -157,7 +157,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
                 return (SudokuBoard) ois.readObject();
             }
         } catch (IOException e) {
-            throw new ApplicationException(e.getLocalizedMessage());
+            throw new ApplicationException(e.getLocalizedMessage(), e);
         }
     }
 
