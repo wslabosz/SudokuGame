@@ -23,6 +23,8 @@ import sudoku.exceptions.OperationOnFileException;
 
 import java.io.*;
 import java.net.URL;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ResourceBundle;
 
 
@@ -60,7 +62,37 @@ public class SudokuBoardWindowControl implements Initializable {
     }
 
     private void fillGrid() {
-        StringConverter<Number> converter = new NumberStringConverter();
+        StringConverter<Number> converter = new NumberStringConverter() {
+            @Override
+            public String toString(Number var1) {
+                if (var1 == null) {
+                    return "";
+                } else if (var1.equals(0)) {
+                    return "";
+                } else {
+                    NumberFormat var2 = this.getNumberFormat();
+                    return var2.format(var1);
+                }
+            }
+            @Override
+            public Number fromString(String var1) {
+                try {
+                    if (var1 == null) {
+                        return null;
+                    } else {
+                        var1 = var1.trim();
+                        if (var1.length() < 1) {
+                            return 0;
+                        } else {
+                            NumberFormat var2 = this.getNumberFormat();
+                            return var2.parse(var1);
+                        }
+                    }
+                } catch (ParseException var3) {
+                    throw new RuntimeException(var3);
+                }
+            }
+        };
         for (int i = 0; i < SudokuBoard.SIZE; i++) {
             for (int j = 0; j < SudokuBoard.SIZE; j++) {
                 TextField textField = new TextField();
@@ -78,19 +110,10 @@ public class SudokuBoardWindowControl implements Initializable {
                 }
                 if (board.getNumberFromPosition(i, j) != 0) {
                     textField.setDisable(true);
-                } else {
-                    textField.textProperty().set("");
                 }
                 textField.setTextFormatter(new TextFormatter<>(this::filter));
             }
         }
-//        for (int i = 0; i < SudokuBoard.SIZE; i++) {
-//            for (int j = 0; j < SudokuBoard.SIZE; j++) {
-//                if (initialState.getNumberFromPosition(i, j) != 0) {
-//                    sudokuBoardGrid.getChildren().get(9 * i + j).setDisable(true);
-//                }
-//            }
-//        }
     }
 
     public void resetGame(ActionEvent actionEvent) {
