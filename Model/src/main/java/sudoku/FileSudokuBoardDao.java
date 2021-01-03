@@ -1,13 +1,12 @@
 package sudoku;
 
-import sudoku.exceptions.OperationOnFileException;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import sudoku.exceptions.OperationOnFileException;
 
 public class FileSudokuBoardDao implements Dao<SudokuBoard>, Serializable {
 
@@ -18,7 +17,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, Serializable {
     }
 
     @Override
-    public SudokuBoard read() {
+    public SudokuBoard read() throws OperationOnFileException {
         // try-with-resources
         try (FileInputStream fis = new FileInputStream(filename);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
@@ -29,7 +28,7 @@ public class FileSudokuBoardDao implements Dao<SudokuBoard>, Serializable {
     }
 
     @Override
-    public void write(SudokuBoard object) {
+    public void write(SudokuBoard object) throws OperationOnFileException {
         try (FileOutputStream fos = new FileOutputStream(filename);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
              oos.writeObject(object);

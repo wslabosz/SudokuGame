@@ -16,6 +16,10 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudoku.exceptions.ApplicationExpection;
+import sudoku.exceptions.OperationOnFileException;
 
 import java.io.*;
 import java.net.URL;
@@ -30,6 +34,7 @@ public class SudokuBoardWindowControl implements Initializable {
     @FXML
     private AnchorPane anchorPane;
 
+    private static final Logger logger = LoggerFactory.getLogger(SudokuBoardWindowControl.class);
     private static final String REGEX_VALID_NUMBER = "[1-9]?";
     private final SudokuSolver solver = new BacktrackingSudokuSolver();
     private SudokuBoard board;
@@ -46,7 +51,7 @@ public class SudokuBoardWindowControl implements Initializable {
         }
     }
 
-    public void initData(Difficulty diff) throws IOException, ClassNotFoundException {
+    public void initData(Difficulty diff) throws ApplicationExpection, ClassNotFoundException {
         board = new SudokuBoard(solver, diff);
         board.solveGame();
         diff.eraseFields(board);
@@ -113,7 +118,7 @@ public class SudokuBoardWindowControl implements Initializable {
         }
     }
 
-    public void saveSudokuToFile(ActionEvent actionEvent) throws Exception {
+    public void saveSudokuToFile(ActionEvent actionEvent) throws OperationOnFileException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Zapisz plik");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -122,17 +127,21 @@ public class SudokuBoardWindowControl implements Initializable {
         );
         File selectedFile = fileChooser.showSaveDialog(anchorPane.getScene().getWindow());
         if (selectedFile != null) {
-            try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath());
-                    FileOutputStream fos = new FileOutputStream(selectedFile, true);
-                    ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-                fileDao.write(board);
-                oos.writeObject(initialState);
-                System.out.println(initialState.toString());
+            try {
+                try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath());
+                        FileOutputStream fos = new FileOutputStream(selectedFile, true);
+                        ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+                    fileDao.write(board);
+                    oos.writeObject(initialState);
+                }
+            } catch (Exception e) {
+                logger.error("Cannot save to file!");
+                throw new OperationOnFileException(e);
             }
         }
     }
 
-    public void readSudokuFromFile(ActionEvent actionEvent) throws Exception {
+    public void readSudokuFromFile(ActionEvent actionEvent) throws OperationOnFileException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Wczytaj plik");
         fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -146,7 +155,9 @@ public class SudokuBoardWindowControl implements Initializable {
                  ObjectInputStream ois = new ObjectInputStream(fis)) {
                 board = (SudokuBoard) ois.readObject();
                 initialState = (SudokuBoard) ois.readObject();
-                System.out.println(initialState.toString());
+            } catch (Exception e) {
+                logger.error("Cannot read from file!");
+                throw new OperationOnFileException(e);
             }
         }
         clearGrid();

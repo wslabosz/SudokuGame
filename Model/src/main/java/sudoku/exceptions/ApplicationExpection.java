@@ -1,4 +1,9 @@
 package sudoku.exceptions;
 
-public class ApplicationExpection extends Exception {
+import java.io.IOException;
+
+public class ApplicationExpection extends IOException {
+    public ApplicationExpection(Throwable ex) {
+        super(ex);
+    }
 }

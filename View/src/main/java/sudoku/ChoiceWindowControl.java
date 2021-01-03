@@ -8,6 +8,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudoku.exceptions.ApplicationExpection;
 
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +18,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ChoiceWindowControl implements Initializable {
+    private static final Logger logger = LoggerFactory.getLogger(ChoiceWindowControl.class);
     @FXML
     public ChoiceBox<String> difficultyChoiceBox;
     public RadioButton enLangButton;
@@ -43,7 +47,7 @@ public class ChoiceWindowControl implements Initializable {
     }
 
     @FXML
-    public void onActionButtonStartGame(ActionEvent actionEvent) throws IOException, ClassNotFoundException {
+    public void onActionButtonStartGame(ActionEvent actionEvent) throws ApplicationExpection, ClassNotFoundException {
         if (difficultyChoiceBox.getSelectionModel().getSelectedItem() != null) {
             if (difficultyChoiceBox.getSelectionModel().getSelectedItem().equals(resourceBundle.getString("Easy"))) {
                 diff = Difficulty.Easy;
@@ -56,17 +60,22 @@ public class ChoiceWindowControl implements Initializable {
         }
     }
 
-    private void switchLanguage(Locale locale) throws IOException {
+    private void switchLanguage(Locale locale) throws ApplicationExpection {
         Scene scene = Pane.getScene();
-        scene.setRoot(FXMLLoader.load(getClass().getResource("ChoiceWindow.fxml"), ResourceBundle.getBundle("sudoku/Language", locale)));
+        try {
+            scene.setRoot(FXMLLoader.load(getClass().getResource("ChoiceWindow.fxml"), ResourceBundle.getBundle("sudoku/Language", locale)));
+        } catch (IOException e) {
+            logger.error("Unexpected error in application loading");
+            throw new ApplicationExpection(e);
+        }
     }
 
-    public void changeLangEn(ActionEvent actionEvent) throws IOException {
+    public void changeLangEn(ActionEvent actionEvent) throws ApplicationExpection {
         enLangButton.setSelected(true);
         switchLanguage(Locale.ENGLISH);
     }
 
-    public void changeLangPl(ActionEvent actionEvent) throws IOException {
+    public void changeLangPl(ActionEvent actionEvent) throws ApplicationExpection {
         plLangButton.setSelected(true);
         switchLanguage(new Locale("pl", "PL"));
     }

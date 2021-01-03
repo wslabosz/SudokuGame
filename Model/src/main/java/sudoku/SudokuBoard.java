@@ -2,10 +2,6 @@ package sudoku;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import sudoku.exceptions.WrongFieldValueSudokuException;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.ByteArrayInputStream;
@@ -16,6 +12,10 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import sudoku.exceptions.ApplicationExpection;
+import sudoku.exceptions.WrongFieldValueSudokuException;
 
 public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable {
     private static final Logger logger = LoggerFactory.getLogger(SudokuBoard.class);
@@ -148,7 +148,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     }
 
 
-    public SudokuBoard deepClone() throws IOException, ClassNotFoundException {
+    public SudokuBoard deepClone() throws ApplicationExpection, ClassNotFoundException {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(bos)) {
             out.writeObject(this);
@@ -156,23 +156,25 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
                  ObjectInputStream ois = new ObjectInputStream(bis)) {
                 return (SudokuBoard) ois.readObject();
             }
+        } catch (IOException e) {
+            throw new ApplicationExpection(e);
         }
     }
 
-//      @Override
-//      public SudokuBoard clone() throws CloneNotSupportedException {
-//          try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//               ObjectOutputStream oos = new ObjectOutputStream(baos)) {
-//              oos.writeObject(this);
-//              try (ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-//                   ObjectInputStream ois = new ObjectInputStream(bais)) {
-//                  return (SudokuBoard) ois.readObject();
-//              }
-//          } catch (IOException | ClassNotFoundException e) {
-//              e.printStackTrace();
-//          }
-//          return null;
-//      }
+    //      @Override
+    //      public SudokuBoard clone() throws CloneNotSupportedException {
+    //          try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    //               ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+    //              oos.writeObject(this);
+    //              try (ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+    //                   ObjectInputStream ois = new ObjectInputStream(bais)) {
+    //                  return (SudokuBoard) ois.readObject();
+    //              }
+    //          } catch (IOException | ClassNotFoundException e) {
+    //              e.printStackTrace();
+    //          }
+    //          return null;
+    //      }
 
 
     @Override

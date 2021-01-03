@@ -2,6 +2,7 @@ package sudoku;
 
 import javafx.application.Application;
 import javafx.stage.Stage;
+import sudoku.exceptions.ApplicationExpection;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -13,7 +14,7 @@ public class App extends Application {
 
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws ApplicationExpection {
         FXMLStageControl.setStage(stage, "choiceWindow.fxml", resourceBundle);
     }
     public static void main(String[] args) {

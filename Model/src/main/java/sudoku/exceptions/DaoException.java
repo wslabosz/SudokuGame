@@ -1,10 +1,11 @@
 package sudoku.exceptions;
 
+import java.io.IOException;
 import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-public class DaoException extends Exception {
+public class DaoException extends IOException {
 
     private static final ResourceBundle messages;
     //Message keys
