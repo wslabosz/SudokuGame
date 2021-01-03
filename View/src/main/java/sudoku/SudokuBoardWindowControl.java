@@ -18,7 +18,7 @@ import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.exceptions.ApplicationExpection;
+import sudoku.exceptions.ApplicationException;
 import sudoku.exceptions.OperationOnFileException;
 
 import java.io.*;
@@ -51,7 +51,7 @@ public class SudokuBoardWindowControl implements Initializable {
         }
     }
 
-    public void initData(Difficulty diff) throws ApplicationExpection, ClassNotFoundException {
+    public void initData(Difficulty diff) throws ApplicationException, ClassNotFoundException {
         board = new SudokuBoard(solver, diff);
         board.solveGame();
         diff.eraseFields(board);
@@ -135,7 +135,7 @@ public class SudokuBoardWindowControl implements Initializable {
                     oos.writeObject(initialState);
                 }
             } catch (Exception e) {
-                logger.error("Cannot save to file!");
+                logger.error(e.getLocalizedMessage(), e);
                 throw new OperationOnFileException(e);
             }
         }
@@ -156,7 +156,7 @@ public class SudokuBoardWindowControl implements Initializable {
                 board = (SudokuBoard) ois.readObject();
                 initialState = (SudokuBoard) ois.readObject();
             } catch (Exception e) {
-                logger.error("Cannot read from file!");
+                logger.error(e.getLocalizedMessage(), e);
                 throw new OperationOnFileException(e);
             }
         }

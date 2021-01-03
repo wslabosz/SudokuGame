@@ -1,11 +1,10 @@
 package sudoku;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
+import sudoku.exceptions.ApplicationException;
 import sudoku.exceptions.WrongFieldValueSudokuException;
 
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.InputMismatchException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static sudoku.SudokuBoard.SIZE;
@@ -95,7 +94,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void setNumberExceptions(){
+    void setNumberExceptions() {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         try {
             board.setNumber(0, 0, 159);
@@ -171,7 +170,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void testClone() throws IOException, ClassNotFoundException {
+    void testClone() throws ApplicationException, ClassNotFoundException {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
         SudokuBoard clone = board.deepClone();
@@ -203,7 +202,7 @@ class SudokuBoardTest {
     }
 
     @Test
-    void getSudokuField() throws IOException, ClassNotFoundException {
+    void getSudokuField() throws ApplicationException, ClassNotFoundException {
         SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         board.solveGame();
         SudokuBoard clone = board.deepClone();

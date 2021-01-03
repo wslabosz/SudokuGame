@@ -22,7 +22,7 @@ class FileSudokuBoardDaoTest {
             assertTrue(new File("testFilename").length() != 0);
             assertThrows(OperationOnFileException.class, () -> invalidFileDao.write(invalidBoard));
         } catch (Exception e) {
-            throw new DaoException("Writefailure", e);
+            throw new DaoException(e.getLocalizedMessage(), e);
         }
     }
 
@@ -33,7 +33,7 @@ class FileSudokuBoardDaoTest {
             assertEquals(fileDao.read(), board);
             assertThrows(OperationOnFileException.class, invalidFileDao::read);
         } catch (Exception e) {
-            throw new DaoException("Readfailure", e);
+            throw new DaoException(e.getLocalizedMessage(), e);
         }
     }
 }

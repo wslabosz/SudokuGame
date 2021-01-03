@@ -14,7 +14,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.exceptions.ApplicationExpection;
+import sudoku.exceptions.ApplicationException;
 import sudoku.exceptions.WrongFieldValueSudokuException;
 
 public class SudokuBoard implements Serializable, PropertyChangeListener, Cloneable {
@@ -148,7 +148,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     }
 
 
-    public SudokuBoard deepClone() throws ApplicationExpection, ClassNotFoundException {
+    public SudokuBoard deepClone() throws ApplicationException, ClassNotFoundException {
         try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
             ObjectOutputStream out = new ObjectOutputStream(bos)) {
             out.writeObject(this);
@@ -157,7 +157,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
                 return (SudokuBoard) ois.readObject();
             }
         } catch (IOException e) {
-            throw new ApplicationExpection(e);
+            throw new ApplicationException(e.getLocalizedMessage());
         }
     }
 

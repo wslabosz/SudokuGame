@@ -10,7 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.exceptions.ApplicationExpection;
+import sudoku.exceptions.ApplicationException;
 
 import java.io.IOException;
 import java.net.URL;
@@ -47,7 +47,7 @@ public class ChoiceWindowControl implements Initializable {
     }
 
     @FXML
-    public void onActionButtonStartGame(ActionEvent actionEvent) throws ApplicationExpection, ClassNotFoundException {
+    public void onActionButtonStartGame(ActionEvent actionEvent) throws ClassNotFoundException, ApplicationException {
         if (difficultyChoiceBox.getSelectionModel().getSelectedItem() != null) {
             if (difficultyChoiceBox.getSelectionModel().getSelectedItem().equals(resourceBundle.getString("Easy"))) {
                 diff = Difficulty.Easy;
@@ -60,22 +60,22 @@ public class ChoiceWindowControl implements Initializable {
         }
     }
 
-    private void switchLanguage(Locale locale) throws ApplicationExpection {
+    private void switchLanguage(Locale locale) throws ApplicationException {
         Scene scene = Pane.getScene();
         try {
             scene.setRoot(FXMLLoader.load(getClass().getResource("ChoiceWindow.fxml"), ResourceBundle.getBundle("sudoku/Language", locale)));
         } catch (IOException e) {
             logger.error("Unexpected error in application loading");
-            throw new ApplicationExpection(e);
+            throw new ApplicationException(e.getLocalizedMessage(), e);
         }
     }
 
-    public void changeLangEn(ActionEvent actionEvent) throws ApplicationExpection {
+    public void changeLangEn(ActionEvent actionEvent) throws ApplicationException {
         enLangButton.setSelected(true);
         switchLanguage(Locale.ENGLISH);
     }
 
-    public void changeLangPl(ActionEvent actionEvent) throws ApplicationExpection {
+    public void changeLangPl(ActionEvent actionEvent) throws ApplicationException {
         plLangButton.setSelected(true);
         switchLanguage(new Locale("pl", "PL"));
     }

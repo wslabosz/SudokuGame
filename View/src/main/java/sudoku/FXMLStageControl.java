@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sudoku.exceptions.ApplicationExpection;
+import sudoku.exceptions.ApplicationException;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
@@ -19,16 +19,16 @@ public class FXMLStageControl {
         FXMLStageControl.stage = stage;
     }
 
-    private static Parent loadFXML(String fxml, ResourceBundle resourceBundle) throws ApplicationExpection {
+    private static Parent loadFXML(String fxml, ResourceBundle resourceBundle) throws ApplicationException {
         try {
             return new FXMLLoader(FXMLStageControl.class.getResource(fxml), resourceBundle).load();
         } catch (IOException e) {
-            logger.error("Unexpected error in application loading");
-            throw new ApplicationExpection(e);
+            logger.error(e.getLocalizedMessage(), e);
+            throw new ApplicationException(e.getLocalizedMessage(), e);
         }
     }
 
-    public static void setScene(String filePath, ResourceBundle resourceBundle) throws ApplicationExpection {
+    public static void setScene(String filePath, ResourceBundle resourceBundle) throws ApplicationException {
         stage.setScene(new Scene(loadFXML(filePath, resourceBundle)));
         stage.titleProperty().setValue(resourceBundle.getString("windowTitle"));
         //scene.getStylesheets().add("sudoku/sudokuBoardWindow.css");
@@ -37,7 +37,7 @@ public class FXMLStageControl {
         stage.show();
     }
 
-    public static void setStage(Stage stage, String filePath, ResourceBundle resourceBundle) throws ApplicationExpection {
+    public static void setStage(Stage stage, String filePath, ResourceBundle resourceBundle) throws ApplicationException {
         setStage(stage);
         stage.setScene(new Scene(loadFXML(filePath, resourceBundle)));
         stage.titleProperty().setValue(resourceBundle.getString("windowTitle"));
@@ -46,13 +46,14 @@ public class FXMLStageControl {
         stage.show();
     }
 
-    public static void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff) throws ApplicationExpection, ClassNotFoundException {
+    public static void passDifficulty(String filePath, ResourceBundle resourceBundle, Difficulty diff)
+            throws ApplicationException, ClassNotFoundException {
         FXMLLoader loader = new FXMLLoader(FXMLStageControl.class.getResource(filePath), resourceBundle);
         try {
             stage.setScene(new Scene(loader.load()));
         } catch (IOException e) {
-            logger.error("Unexpected error in application loading");
-            throw new ApplicationExpection(e);
+            logger.error(e.getLocalizedMessage(), e);
+            throw new ApplicationException(e.getLocalizedMessage(), e);
         }
         stage.titleProperty().setValue(resourceBundle.getString("windowTitle"));
         stage.sizeToScene();
