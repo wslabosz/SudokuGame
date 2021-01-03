@@ -53,7 +53,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     }
 
     public int getNumberFromPosition(int xpos, int ypos) {
-        return board.get(xpos * 9 + ypos).getNumber();
+        return board.get(xpos * 9 + ypos).getValue();
     }
 
     public SudokuField getSudokuField(int xpos, int ypos) {
@@ -63,7 +63,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     public void setNumber(int xpos, int ypos, int number) {
         //exception
         try {
-            board.get(xpos * 9 + ypos).setNumber(number);
+            board.get(xpos * 9 + ypos).setValue(number);
         } catch (IndexOutOfBoundsException ex) {
             logger.debug("Index out of Bounds ex", ex);
         }
@@ -188,5 +188,6 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
                 logger.debug("Wrong value inserted");
             }
         }
+        System.out.println(evt.getNewValue());
     }
 }

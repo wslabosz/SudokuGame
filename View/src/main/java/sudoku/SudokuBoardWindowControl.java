@@ -25,6 +25,8 @@ import java.io.*;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -42,6 +44,8 @@ public class SudokuBoardWindowControl implements Initializable {
     private SudokuBoard board;
     private SudokuBoard initialState;
     private ResourceBundle resourceBundle;
+    private final List<JavaBeanIntegerProperty> integerProperties =
+            new ArrayList<JavaBeanIntegerProperty>();
 
     public SudokuBoardWindowControl() { }
 
@@ -100,18 +104,25 @@ public class SudokuBoardWindowControl implements Initializable {
                 textField.setMinSize(50, 58);
                 textField.setFont(Font.font(20));
                 textField.setOpacity(1);
+                textField.setTextFormatter(new TextFormatter<>(this::filter));
                 sudokuBoardGrid.add(textField, j, i);
+                textField.setOnKeyPressed(e -> {
+                    if (e.getText().matches("[1-9]")) {
+                        textField.setText(e.getText());
+                    }
+                });
+                JavaBeanIntegerPropertyBuilder builder = JavaBeanIntegerPropertyBuilder.create();
+                JavaBeanIntegerProperty integerProperty = null;
                 try {
-                    JavaBeanIntegerPropertyBuilder builder = JavaBeanIntegerPropertyBuilder.create();
-                    JavaBeanIntegerProperty integerProperty = builder.bean(board.getSudokuField(i, j)).name("number").build();
+                    integerProperty = builder.bean(board.getSudokuField(i, j)).name("value").build();
                     textField.textProperty().bindBidirectional(integerProperty, converter);
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 }
-                if (board.getNumberFromPosition(i, j) != 0) {
+                integerProperties.add(integerProperty);
+                if (board.getNumberFromPosition(i, j) == initialState.getNumberFromPosition(i, j) && board.getNumberFromPosition(i, j) != 0) {
                     textField.setDisable(true);
                 }
-                textField.setTextFormatter(new TextFormatter<>(this::filter));
             }
         }
     }

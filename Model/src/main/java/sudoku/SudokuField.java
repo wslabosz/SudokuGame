@@ -15,14 +15,13 @@ public class SudokuField implements Cloneable, Comparable<SudokuField>, Serializ
         this.value = value;
     }
 
-    public int getNumber() {
+    public int getValue() {
         return this.value;
     }
 
-    public void setNumber(int value) {
+    public void setValue(int value) {
         if (value < 0 || value > 9) {
             throw new WrongFieldValueSudokuException("Number must be in range from 0 to 9");
-
         }
         propertySupport.firePropertyChange("value", this.value, value);
         this.value = value;

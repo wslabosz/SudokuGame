@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import sudoku.exceptions.WrongFieldValueSudokuException;
 
-import java.util.InputMismatchException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class SudokuFieldTest {
@@ -43,10 +41,10 @@ class SudokuFieldTest {
     public void setWrongFieldValueTest() {
         SudokuField field = new SudokuField(0);
         Assertions.assertThrows(WrongFieldValueSudokuException.class, () -> {
-            field.setNumber(-1);
+            field.setValue(-1);
         });
         Assertions.assertThrows(WrongFieldValueSudokuException.class, () -> {
-            field.setNumber(10);
+            field.setValue(10);
         });
     }
 
@@ -70,7 +68,7 @@ class SudokuFieldTest {
         assertNotSame(field, cloned);
         assertEquals(field.getClass(), cloned.getClass());
         assertEquals(cloned, field);
-        field.setNumber(3);
+        field.setValue(3);
         assertNotEquals(cloned, field);
     }
 }
