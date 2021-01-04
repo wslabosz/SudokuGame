@@ -52,9 +52,6 @@ public class SudokuBoardWindowControl implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle bundle) {
         resourceBundle = bundle;
-        if(board != null) {
-            fillGrid();
-        }
     }
 
     public void initData(Difficulty diff) throws ApplicationException, ClassNotFoundException {
@@ -66,6 +63,32 @@ public class SudokuBoardWindowControl implements Initializable {
     }
 
     private void fillGrid() {
+        for (int i = 0; i < SudokuBoard.SIZE; i++) {
+            for (int j = 0; j < SudokuBoard.SIZE; j++) {
+                TextField textField = new TextField();
+                textField.setAlignment(Pos.CENTER);
+                textField.setMinSize(50, 58);
+                textField.setFont(Font.font(20));
+                textField.setOpacity(1);
+                textField.setTextFormatter(new TextFormatter<>(this::filter));
+                sudokuBoardGrid.add(textField, j, i);
+                textField.setOnKeyPressed(e -> {
+                    if (e.getText().matches("[1-9]")) {
+                        textField.setText(e.getText());
+                    }
+                });
+                if (board.getNumberFromPosition(i, j) == initialState.getNumberFromPosition(i, j) && board.getNumberFromPosition(i, j) != 0) {
+                    textField.setDisable(true);
+                }
+            }
+        }
+        binding();
+    }
+
+    public void binding() {
+        if (integerProperties.size() > 0) {
+            integerProperties.clear();
+        }
         StringConverter<Number> converter = new NumberStringConverter() {
             @Override
             public String toString(Number var1) {
@@ -97,33 +120,23 @@ public class SudokuBoardWindowControl implements Initializable {
                 }
             }
         };
-        for (int i = 0; i < SudokuBoard.SIZE; i++) {
-            for (int j = 0; j < SudokuBoard.SIZE; j++) {
-                TextField textField = new TextField();
-                textField.setAlignment(Pos.CENTER);
-                textField.setMinSize(50, 58);
-                textField.setFont(Font.font(20));
-                textField.setOpacity(1);
-                textField.setTextFormatter(new TextFormatter<>(this::filter));
-                sudokuBoardGrid.add(textField, j, i);
-                textField.setOnKeyPressed(e -> {
-                    if (e.getText().matches("[1-9]")) {
-                        textField.setText(e.getText());
-                    }
-                });
-                JavaBeanIntegerPropertyBuilder builder = JavaBeanIntegerPropertyBuilder.create();
-                JavaBeanIntegerProperty integerProperty = null;
-                try {
-                    integerProperty = builder.bean(board.getSudokuField(i, j)).name("value").build();
-                    textField.textProperty().bindBidirectional(integerProperty, converter);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-                integerProperties.add(integerProperty);
-                if (board.getNumberFromPosition(i, j) == initialState.getNumberFromPosition(i, j) && board.getNumberFromPosition(i, j) != 0) {
-                    textField.setDisable(true);
-                }
+        JavaBeanIntegerPropertyBuilder builder = JavaBeanIntegerPropertyBuilder.create();
+        JavaBeanIntegerProperty integerProperty = null;
+        for (Node node : sudokuBoardGrid.getChildren().subList(1, 82)) {
+            TextField field = (TextField) node;
+            field.setDisable(false);
+            try {
+                integerProperty = builder.bean(board.getSudokuField(GridPane.getRowIndex(field), GridPane.getColumnIndex(field))).name("value").build();
+                field.textProperty().bindBidirectional(integerProperty, converter);
+            } catch (NoSuchMethodException e) {
+                logger.debug(e.getLocalizedMessage(), e);
             }
+            if (board.getNumberFromPosition(GridPane.getRowIndex(field), GridPane.getColumnIndex(field))
+                    == initialState.getNumberFromPosition(GridPane.getRowIndex(field), GridPane.getColumnIndex(field)) &&
+                    board.getNumberFromPosition(GridPane.getRowIndex(field), GridPane.getColumnIndex(field)) != 0) {
+                field.setDisable(true);
+            }
+            integerProperties.add(integerProperty);
         }
     }
 
@@ -131,23 +144,6 @@ public class SudokuBoardWindowControl implements Initializable {
         for (Node node : sudokuBoardGrid.getChildren().subList(1, 82)) {
             if(initialState.getNumberFromPosition(GridPane.getRowIndex(node), GridPane.getColumnIndex(node)) == 0) {
                 ((TextField) node).setText("");
-            }
-        }
-    }
-
-    private void clearGrid() {
-        for (Node c : sudokuBoardGrid.getChildren().subList(1, 82)) {
-            TextField field = (TextField) c;
-            field.setDisable(false);
-            if (board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) != 0) {
-                field.setText(String.valueOf(board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c))));
-            } else {
-                field.setText("");
-            }
-            if (board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) ==
-                    initialState.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) &&
-                    board.getNumberFromPosition(GridPane.getRowIndex(c), GridPane.getColumnIndex(c)) != 0) {
-                field.setDisable(true);
             }
         }
     }
@@ -194,7 +190,7 @@ public class SudokuBoardWindowControl implements Initializable {
                 throw new OperationOnFileException(e);
             }
         }
-        clearGrid();
+        binding();
     }
 
     private TextFormatter.Change filter(TextFormatter.Change change) {

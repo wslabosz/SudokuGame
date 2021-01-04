@@ -17,7 +17,7 @@ class FileSudokuBoardDaoTest {
     @Test
     void writeTest() throws DaoException {
         try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao("testFilename");
-             Dao<SudokuBoard> invalidFileDao = SudokuBoardDaoFactory.getFileDao("?")) {
+             Dao<SudokuBoard> invalidFileDao = SudokuBoardDaoFactory.getFileDao("")) {
             fileDao.write(board);
             assertTrue(new File("testFilename").length() != 0);
             assertThrows(OperationOnFileException.class, () -> invalidFileDao.write(invalidBoard));

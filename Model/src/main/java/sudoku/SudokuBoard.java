@@ -188,6 +188,5 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
                 logger.debug("Wrong value inserted");
             }
         }
-        System.out.println(evt.getNewValue());
     }
 }
