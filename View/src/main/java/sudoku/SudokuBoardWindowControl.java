@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 
 public class SudokuBoardWindowControl implements Initializable {
     @FXML
-    private Button guzior;
+    private Button resetButton;
     @FXML
     private GridPane sudokuBoardGrid;
     @FXML
@@ -45,7 +45,7 @@ public class SudokuBoardWindowControl implements Initializable {
     private SudokuBoard initialState;
     private ResourceBundle resourceBundle;
     private final List<JavaBeanIntegerProperty> integerProperties =
-            new ArrayList<JavaBeanIntegerProperty>();
+            new ArrayList<>();
 
     public SudokuBoardWindowControl() { }
 
@@ -156,13 +156,13 @@ public class SudokuBoardWindowControl implements Initializable {
                 new FileChooser.ExtensionFilter("Sudoku", "*.sud")
         );
         File selectedFile = fileChooser.showSaveDialog(anchorPane.getScene().getWindow());
+        var sudokuBoardList = new SudokuBoard[2];
+        sudokuBoardList[0] = board;
+        sudokuBoardList[1] = initialState;
         if (selectedFile != null) {
             try {
-                try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath());
-                        FileOutputStream fos = new FileOutputStream(selectedFile, true);
-                        ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-                    fileDao.write(board);
-                    oos.writeObject(initialState);
+                try (Dao<SudokuBoard[]> fileDao = SudokuBoardDaoFactory.getFileTwoDao(selectedFile.getAbsolutePath())) {
+                    fileDao.write(sudokuBoardList);
                 }
             } catch (Exception e) {
                 logger.error(e.getLocalizedMessage(), e);
@@ -180,11 +180,10 @@ public class SudokuBoardWindowControl implements Initializable {
         );
         File selectedFile = fileChooser.showOpenDialog(anchorPane.getScene().getWindow());
         if (selectedFile != null) {
-            try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao(selectedFile.getAbsolutePath());
-                 FileInputStream fis = new FileInputStream(selectedFile);
-                 ObjectInputStream ois = new ObjectInputStream(fis)) {
-                board = (SudokuBoard) ois.readObject();
-                initialState = (SudokuBoard) ois.readObject();
+            try (Dao<SudokuBoard[]> fileDao = SudokuBoardDaoFactory.getFileTwoDao(selectedFile.getAbsolutePath())) {
+                var sudokuBoardList = fileDao.read();
+                board = sudokuBoardList[0];
+                initialState = sudokuBoardList[1];
             } catch (Exception e) {
                 logger.error(e.getLocalizedMessage(), e);
                 throw new OperationOnFileException(e);
