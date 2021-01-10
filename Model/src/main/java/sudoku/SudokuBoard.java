@@ -130,6 +130,16 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
                 .toString();
     }
 
+    public String boardConcatedValues() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                stringBuilder.append(getNumberFromPosition(i, j));
+            }
+        }
+        return stringBuilder.toString();
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
