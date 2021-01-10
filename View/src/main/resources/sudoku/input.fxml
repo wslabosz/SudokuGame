@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="100.0" prefWidth="240.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudoku.savesController">
+   <children>
+      <TitledPane animated="false" prefHeight="100.0" prefWidth="240.0" text="%filenamePrompt">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <TextField fx:id="inputField" layoutX="14.0" layoutY="10.0" prefHeight="25.0" prefWidth="210.0" />
+                  <Button fx:id="saveButton" layoutX="95.0" layoutY="40.0" mnemonicParsing="false" onAction="#submit" text="%saveButton">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children></AnchorPane>
+        </content>
+      </TitledPane>
+   </children>
+</AnchorPane>

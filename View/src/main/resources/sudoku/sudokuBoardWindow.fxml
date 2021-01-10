@@ -37,15 +37,25 @@
           <Insets bottom="1.0" left="1.0" right="1.0" top="1.0" />
         </padding>
     </GridPane>
-    <Button fx:id="saveSudokuToFileButton" layoutX="620.0" layoutY="440.0" mnemonicParsing="false" onAction="#saveSudokuToFile" prefHeight="34.0" prefWidth="150.0" text="%saveButton" textAlignment="CENTER">
+    <Button fx:id="saveSudokuToFileButton" layoutX="640.0" layoutY="500.0" mnemonicParsing="false" onAction="#saveSudokuToFile" prefHeight="25.0" prefWidth="125.0" text="%saveButtonFile" textAlignment="CENTER">
         <font>
-          <Font name="Calibri Bold" size="18.0" />
+          <Font name="Calibri Bold" size="11.0" />
         </font>
     </Button>
-    <Button fx:id="readSudokuFromFileButton" layoutX="620.0" layoutY="500.0" mnemonicParsing="false" onAction="#readSudokuFromFile" prefWidth="150.0" text="%loadButton" textAlignment="CENTER">
+    <Button fx:id="readSudokuFromFileButton" layoutX="640.0" layoutY="540.0" mnemonicParsing="false" onAction="#readSudokuFromFile" prefHeight="25.0" prefWidth="125.0" text="%loadButtonFile" textAlignment="CENTER">
         <font>
-          <Font name="Calibri Bold" size="18.0" />
+          <Font name="Calibri Bold" size="11.0" />
         </font>
     </Button>
    <Button fx:id="resetButton" layoutX="607.0" layoutY="30.0" mnemonicParsing="false" onAction="#resetGame" text="%resetButton" />
+   <Button fx:id="buttonSaveDatabase" layoutX="610.0" layoutY="300.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="35.0" prefWidth="180.0" text="%saveButtonDatabase">
+      <font>
+         <Font name="System Bold" size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="buttonLoadDatabase" layoutX="610.0" layoutY="240.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="35.0" prefWidth="180.0" text="%loadButtonDatabase">
+      <font>
+         <Font name="System Bold" size="14.0" />
+      </font>
+   </Button>
 </AnchorPane>

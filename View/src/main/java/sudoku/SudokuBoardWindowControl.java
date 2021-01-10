@@ -4,9 +4,11 @@ import javafx.beans.property.adapter.JavaBeanIntegerProperty;
 import javafx.beans.property.adapter.JavaBeanIntegerPropertyBuilder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
@@ -14,11 +16,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.ApplicationException;
+import sudoku.exceptions.DatabaseException;
 import sudoku.exceptions.OperationOnFileException;
 
 import java.io.*;
@@ -199,4 +203,61 @@ public class SudokuBoardWindowControl implements Initializable {
         return change;
     }
 
+    public void saveGame(ActionEvent actionEvent) throws DatabaseException, ApplicationException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("input.fxml"), resourceBundle);
+        Scene scene = null;
+        try {
+            scene = new Scene(loader.load());
+        } catch (IOException ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        Stage inputStage = new Stage();
+        inputStage.setTitle(resourceBundle.getString("saveButton"));
+        inputStage.initOwner(anchorPane.getScene().getWindow());
+        inputStage.setScene(scene);
+        inputStage.showAndWait();
+        String filename = loader.<savesController>getController().getInput();
+        if (filename != null) {
+            try {
+                try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(filename);
+                     Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getJdbcDao("initial" + filename)) {
+                    jdbcDao.write(board);
+                    jdbcDao.write(initialState);
+                }
+            } catch (Exception e) {
+                logger.error(e.getLocalizedMessage(), e);
+                throw new DatabaseException(e.getLocalizedMessage());
+            }
+            logger.debug(resourceBundle.getString("saveCompleted"));
+        }
+    }
+
+    public void loadGame(ActionEvent actionEvent) throws DatabaseException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("savesList.fxml"), resourceBundle);
+        Scene scene = null;
+        try {
+            scene = new Scene(loader.load());
+        } catch (IOException ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        Stage readStage = new Stage();
+        readStage.setTitle(resourceBundle.getString("saveButton"));
+        readStage.initOwner(anchorPane.getScene().getWindow());
+        readStage.setScene(scene);
+        readStage.showAndWait();
+        String filename = loader.<savesController>getController().getInput();
+        if (filename != null) {
+            try {
+                try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(filename);
+                     Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getJdbcDao("initial" + filename)) {
+                    board = jdbcDao.read();
+                    initialState = jdbcDaoInitial.read();
+                }
+            } catch (Exception e) {
+                logger.error(e.getLocalizedMessage(), e);
+                throw new DatabaseException(e.getLocalizedMessage());
+            }
+            binding();
+        }
+    }
 }

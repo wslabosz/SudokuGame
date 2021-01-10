@@ -19,6 +19,7 @@ public class JdbcSudokuBoardDaoTest {
     @Test
     void fTest() {
         try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao("testFilename")) {
+            board.solveGame();
             jdbcDao.write(board);
             assertEquals(board, jdbcDao.read());
         } catch (Exception e) {

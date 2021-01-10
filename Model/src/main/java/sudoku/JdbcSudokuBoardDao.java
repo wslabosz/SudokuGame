@@ -27,9 +27,28 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             Class.forName(DRIVER);
             connection = DriverManager.getConnection(URL, "postgres", "postgres");
             logger.debug(bundle.getString("connection.positive"));
+            setupTables();
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(bundle.getString("connection.negative"), e);
             throw new DaoException("connection.negative", e);
+        }
+    }
+
+    private void setupTables() {
+        try {
+            JDBC_STATEMENT = connection.createStatement();
+            String createB =
+                    "Create Table BOARDS(BOARD_ID int PRIMARY KEY GENERATED ALWAYS AS IDENTITY, BOARD_NAME varchar(40) NOT NULL)";
+            JDBC_STATEMENT.executeUpdate(createB);
+            logger.debug(bundle.getString("tab.creation"));
+            JDBC_STATEMENT = connection.createStatement();
+            String createF =
+                    "Create Table FIELDS(X int NOT NULL, Y int NOT NULL, VAL int NOT NULL," +
+                            " BOARD_ID int, FOREIGN KEY (BOARD_ID) REFERENCES BOARDS (BOARD_ID) ON UPDATE CASCADE ON DELETE CASCADE )";
+            JDBC_STATEMENT.executeUpdate(createF);
+            logger.debug(bundle.getString("tab.creation"));
+        } catch (SQLException e) {
+            logger.warn(bundle.getString("tab.error"));
         }
     }
 
@@ -37,14 +56,12 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     public SudokuBoard read() {
         PreparedStatement preparedStatement;
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-        String fields;
         ResultSet resultSet;
         ResultSet resultSetVal;
-        int[] array = new int[81];
+        int x, y, value;
         int id;
         try {
             JDBC_STATEMENT = connection.createStatement();
-            logger.debug(bundle.getString("connection.positive"));
             preparedStatement = connection.prepareStatement
                     ("SELECT BOARDS.BOARD_ID from BOARDS where BOARDS.BOARD_NAME=?");
             preparedStatement.setString(1, fileName);
@@ -57,46 +74,27 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             }
             logger.debug(bundle.getString("data.read"));
             preparedStatement = connection.prepareStatement
-                    ("SELECT FIELDS.VAL from FIELDS where FIELDS.BOARD_ID=?");
+                    ("SELECT FIELDS.X, FIELDS.Y, FIELDS.VAL from FIELDS where FIELDS.BOARD_ID=?");
             preparedStatement.setInt(1, id);
             resultSetVal = preparedStatement.executeQuery();
-            if (resultSetVal.next()) {
-                fields = resultSetVal.getString(1);
-            } else {
-                logger.error(bundle.getString("io.error"));
-                throw new IOException(bundle.getString("io.error"));
+            while (resultSetVal.next()) {
+                x = resultSetVal.getInt(1);
+                y = resultSetVal.getInt(2);
+                value = resultSetVal.getInt(3);
+                sudokuBoard.setNumber(x, y, value);
             }
             logger.debug(bundle.getString("data.read"));
-            for (int i = 0; i < 81; i++) {
-                array[i] = (Character.getNumericValue(fields.charAt(i)));
-            }
         } catch (SQLException | IOException e) {
             logger.error(bundle.getString("io.error"));
-        }
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                sudokuBoard.setNumber(i, j, array[i * 9 + j]);
-            }
         }
         return sudokuBoard;
     }
 
     @Override
     public void write(SudokuBoard obj) {
+        ResultSet idSet;
+        int id;
         PreparedStatement preparedStatement;
-        try {
-            JDBC_STATEMENT = connection.createStatement();
-            String createB = "Create Table BOARDS(BOARD_ID int PRIMARY KEY GENERATED ALWAYS AS IDENTITY, BOARD_NAME varchar(40) NOT NULL)";
-            JDBC_STATEMENT.executeUpdate(createB);
-            logger.debug(bundle.getString("tab.creation"));
-            JDBC_STATEMENT = connection.createStatement();
-            String createF = "Create Table FIELDS(VAL varchar(81) NOT NULL, BOARD_ID int," +
-                    " FOREIGN KEY (BOARD_ID) REFERENCES BOARDS (BOARD_ID) ON UPDATE CASCADE ON DELETE CASCADE )";
-            JDBC_STATEMENT.executeUpdate(createF);
-            logger.debug(bundle.getString("tab.creation"));
-        } catch (SQLException e) {
-            logger.warn(bundle.getString("tab.error"));
-        }
         try {
             JDBC_STATEMENT = connection.createStatement();
             String insert = "INSERT INTO BOARDS (BOARD_NAME) VALUES (?)";
@@ -109,14 +107,31 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             logger.error(bundle.getString("io.error"), e);
         }
         try {
+            preparedStatement = connection.prepareStatement
+                    ("SELECT BOARDS.BOARD_ID from BOARDS where BOARDS.BOARD_NAME=?");
+            preparedStatement.setString(1, fileName);
+            idSet = preparedStatement.executeQuery();
+            if (idSet.next()) {
+                id = idSet.getInt(1);
+            } else {
+                logger.error(bundle.getString("io.error"));
+                throw new IOException(bundle.getString("io.error"));
+            }
             JDBC_STATEMENT = connection.createStatement();
-            String insert = "INSERT INTO FIELDS (VAL) VALUES(?)";
+            String insert = "INSERT INTO FIELDS VALUES(?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(insert);
-            preparedStatement.setString(1, obj.boardConcatedValues());
-            preparedStatement.executeUpdate();
+            preparedStatement.setInt(4, id);
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    preparedStatement.setInt(1, i);
+                    preparedStatement.setInt(2, j);
+                    preparedStatement.setInt(3, obj.getNumberFromPosition(i, j));
+                    preparedStatement.executeUpdate();
+                }
+            }
             logger.debug(bundle.getString("data.insertion"));
             preparedStatement.close();
-        } catch (SQLException e) {
+        } catch (SQLException | IOException e) {
             logger.error(bundle.getString("io.error"), e);
         }
     }
@@ -130,6 +145,5 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             logger.error(bundle.getString("connection.error"));
         }
     }
-
 
 }

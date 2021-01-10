@@ -22,7 +22,7 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     public static final int SIZE = 9;
     private final List<SudokuField> board;
     private final transient SudokuSolver sudokuSolver;
-    private boolean doListen = true;
+    private boolean doListen = false;
     private Difficulty difficulty;
 
     public SudokuBoard(SudokuSolver sudokuSolver, Difficulty difficulty) {
@@ -128,16 +128,6 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         return MoreObjects.toStringHelper(this)
                 .add("board", board)
                 .toString();
-    }
-
-    public String boardConcatedValues() {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                stringBuilder.append(getNumberFromPosition(i, j));
-            }
-        }
-        return stringBuilder.toString();
     }
 
     @Override
