@@ -55,7 +55,7 @@ public class SudokuBoardWindowControl implements Initializable {
     }
 
     public void initData(Difficulty diff) throws ApplicationException, ClassNotFoundException {
-        board = new SudokuBoard(solver, diff);
+        board = new SudokuBoard(solver, diff, "viewBoard");
         board.solveGame();
         diff.eraseFields(board);
         initialState = board.deepClone();

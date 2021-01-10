@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static sudoku.SudokuBoard.SIZE;
 
 class SudokuBoardTest {
+    SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver(), "testBoard");
+    SudokuBoard sudoku2 = new SudokuBoard(new BacktrackingSudokuSolver(), "testBoard2");
+    SudokuSolver solver = new BacktrackingSudokuSolver();
+    SudokuBoard sudoku3 = new SudokuBoard(solver, "testBoard3");
 
     private int checkZeroValues(SudokuBoard board) {
         int counter = 0;
@@ -25,7 +29,6 @@ class SudokuBoardTest {
 
     @Test
     void checkingSudokuRegularity() {
-        SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku.solveGame();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -42,8 +45,6 @@ class SudokuBoardTest {
 
     @Test
     void randomizedBoardCheck() {
-        SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
-        SudokuBoard sudoku2 = new SudokuBoard(new BacktrackingSudokuSolver());
         sudoku.solveGame();
         sudoku2.solveGame();
 
@@ -61,7 +62,6 @@ class SudokuBoardTest {
     }
     @Test
     void SudokuCheck() {
-        SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
         //sudoku.setListening(true);
         try {
             sudoku.solveGame();
@@ -73,41 +73,38 @@ class SudokuBoardTest {
 
     @Test
     void setNumber() {
-        SudokuBoard s = new SudokuBoard(new BacktrackingSudokuSolver());
-
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                assertEquals(s.getNumberFromPosition(i,j), 0);
+                assertEquals(sudoku.getNumberFromPosition(i,j), 0);
             }
         }
 
-        s.setNumber(3,3,9);
-        assertEquals(s.getNumberFromPosition(3,3), 9);
+        sudoku.setNumber(3,3,9);
+        assertEquals(sudoku.getNumberFromPosition(3,3), 9);
 
         for (int i = 0; i < 9; i++) {
             if (i == 3 ) { continue; }
             for (int j = 0; j < 9; j++) {
                 if (j == 3) { continue; }
-                assertEquals(s.getNumberFromPosition(i,j), 0);
+                assertEquals(sudoku.getNumberFromPosition(i,j), 0);
             }
         }
     }
 
     @Test
     void setNumberExceptions() {
-        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
         try {
-            board.setNumber(0, 0, 159);
+            sudoku.setNumber(0, 0, 159);
         } catch (WrongFieldValueSudokuException ex) {
             assertEquals(ex.getMessage(), "Number must be in range from 0 to 9");
         }
         try {
-            board.setNumber(0,0, -159);
+            sudoku.setNumber(0,0, -159);
         } catch (WrongFieldValueSudokuException ex) {
             assertEquals(ex.getMessage(), "Number must be in range from 0 to 9");
         }
         try {
-            board.setNumber(100, 100, 5);
+            sudoku.setNumber(100, 100, 5);
         } catch (WrongFieldValueSudokuException ex) {
             assertEquals(ex.getMessage(), "Index out of bounds");
         }
@@ -115,77 +112,60 @@ class SudokuBoardTest {
 
     @Test
     void testEquals() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard board1 = new SudokuBoard(solver);
-        SudokuBoard board2 = new SudokuBoard(solver);
-        SudokuBoard board3 = new SudokuBoard(solver);
-        board3.setNumber(0,0,1);
-        assertNotEquals(board1, null);
-        assertNotEquals(board1, solver);
-        assertEquals(board1,board1);
-        assertEquals(board1,board2);
-        assertNotEquals(board1,board3);
+        sudoku3.setNumber(0,0,1);
+        assertNotEquals(sudoku, null);
+        assertNotEquals(sudoku, solver);
+        assertEquals(sudoku,sudoku);
+        assertEquals(sudoku,sudoku2);
+        assertNotEquals(sudoku,sudoku3);
     }
 
     @Test
     void testToString() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard board = new SudokuBoard(solver);
-        String toString = board.toString();
+        String toString = sudoku.toString();
         System.out.println(toString);
         assertTrue(toString.matches("SudokuBoard\\{board=\\[[a-zA-Z\\{a-z=0-9\\}\\,\\s]*?\\]\\}"));
     }
 
     @Test
     void testHashCode() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard board1 = new SudokuBoard(solver);
-        SudokuBoard board2 = new SudokuBoard(solver);
-        SudokuBoard board3 = new SudokuBoard(solver);
-        board3.setNumber(0,0,1);
-        assertEquals(board1.hashCode(),board1.hashCode());
-        assertEquals(board1.hashCode(),board2.hashCode());
-        assertNotEquals(board1.hashCode(),board3.hashCode());
+        sudoku3.setNumber(0,0,1);
+        assertEquals(sudoku.hashCode(),sudoku.hashCode());
+        assertEquals(sudoku.hashCode(),sudoku2.hashCode());
+        assertNotEquals(sudoku.hashCode(),sudoku3.hashCode());
     }
 
     @Test
     void getRow() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard board = new SudokuBoard(solver);
-        assertNotNull(board.getRow(1));
+        assertNotNull(sudoku.getRow(1));
     }
 
     @Test
     void getColumn() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard board = new SudokuBoard(solver);
-        assertNotNull(board.getColumn(7));
+        assertNotNull(sudoku.getColumn(7));
     }
 
     @Test
     void getBox() {
-        SudokuSolver solver = new BacktrackingSudokuSolver();
-        SudokuBoard board = new SudokuBoard(solver);
-        assertNotNull(board.getBox(5,5));
+        assertNotNull(sudoku.getBox(5,5));
     }
 
     @Test
     void testClone() throws ApplicationException, ClassNotFoundException {
-        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
-        board.solveGame();
-        SudokuBoard clone = board.deepClone();
-        assertNotSame(board, clone);
-        assertEquals(board.getClass(), clone.getClass());
-        assertEquals(clone, board);
-        board.setNumber(0,0,0);
-        assertNotEquals(clone, board);
+        sudoku.solveGame();
+        SudokuBoard clone = sudoku.deepClone();
+        assertNotSame(sudoku, clone);
+        assertEquals(sudoku.getClass(), clone.getClass());
+        assertEquals(clone, sudoku);
+        sudoku.setNumber(0,0,0);
+        assertNotEquals(clone, sudoku);
     }
 
     @Test
     void BoardDifficultyTest() {
-        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Easy);
-        SudokuBoard sudokuBoard2 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Normal);
-        SudokuBoard sudokuBoard3 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Hard);
+        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Easy, "1");
+        SudokuBoard sudokuBoard2 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Normal, "2");
+        SudokuBoard sudokuBoard3 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Hard, "3");
         sudokuBoard1.solveGame();
         Difficulty easy = Difficulty.Easy;
         easy.eraseFields(sudokuBoard1);
@@ -203,9 +183,8 @@ class SudokuBoardTest {
 
     @Test
     void getSudokuField() throws ApplicationException, ClassNotFoundException {
-        SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
-        board.solveGame();
-        SudokuBoard clone = board.deepClone();
-        assertEquals(board.getSudokuField(0, 0), clone.getSudokuField(0, 0));
+        sudoku.solveGame();
+        SudokuBoard clone = sudoku.deepClone();
+        assertEquals(sudoku.getSudokuField(0, 0), clone.getSudokuField(0, 0));
     }
 }
