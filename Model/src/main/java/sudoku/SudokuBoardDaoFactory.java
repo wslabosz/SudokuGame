@@ -14,7 +14,7 @@ public class SudokuBoardDaoFactory {
         return new FileTwoSudokuBoardDao(filename);
     }
 
-//    public static Dao<SudokuBoard> getDBDao(String filename) throws ApplicationException {
-//        return new JdbcSudokuBoardDao(filename);
-//    }
+    public static Dao<SudokuBoard> getDBDao(String boardname) throws ApplicationException {
+        return new JdbcSudokuBoardDao(boardname);
+    }
 }
