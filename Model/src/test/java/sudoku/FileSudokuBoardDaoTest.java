@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileSudokuBoardDaoTest {
     // to w try-with-resources DAO MA BYC ZASOBEM TWORZYMY GO WEWNATRZ TRY
 
-    private SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver(), "correctBoard");
-    private SudokuBoard invalidBoard = new SudokuBoard(new BacktrackingSudokuSolver(), "invalidBoard");
+    private SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
+    private SudokuBoard invalidBoard = new SudokuBoard(new BacktrackingSudokuSolver());
     private FileSudokuBoardDao fileSudokuBoardDao;
 
     @Test

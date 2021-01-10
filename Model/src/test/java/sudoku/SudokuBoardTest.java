@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 import static sudoku.SudokuBoard.SIZE;
 
 class SudokuBoardTest {
-    SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver(), "testBoard");
-    SudokuBoard sudoku2 = new SudokuBoard(new BacktrackingSudokuSolver(), "testBoard2");
+    SudokuBoard sudoku = new SudokuBoard(new BacktrackingSudokuSolver());
+    SudokuBoard sudoku2 = new SudokuBoard(new BacktrackingSudokuSolver());
     SudokuSolver solver = new BacktrackingSudokuSolver();
-    SudokuBoard sudoku3 = new SudokuBoard(solver, "testBoard3");
+    SudokuBoard sudoku3 = new SudokuBoard(solver);
 
     private int checkZeroValues(SudokuBoard board) {
         int counter = 0;
@@ -163,9 +163,9 @@ class SudokuBoardTest {
 
     @Test
     void BoardDifficultyTest() {
-        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Easy, "1");
-        SudokuBoard sudokuBoard2 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Normal, "2");
-        SudokuBoard sudokuBoard3 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Hard, "3");
+        SudokuBoard sudokuBoard1 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Easy);
+        SudokuBoard sudokuBoard2 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Normal);
+        SudokuBoard sudokuBoard3 = new SudokuBoard(new BacktrackingSudokuSolver(), Difficulty.Hard);
         sudokuBoard1.solveGame();
         Difficulty easy = Difficulty.Easy;
         easy.eraseFields(sudokuBoard1);
