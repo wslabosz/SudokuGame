@@ -1,10 +1,13 @@
 package sudoku;
 
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.function.Try;
 import sudoku.exceptions.DaoException;
 import sudoku.exceptions.OperationOnFileException;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -13,7 +16,7 @@ class FileSudokuBoardDaoTest {
 
     private SudokuBoard board = new SudokuBoard(new BacktrackingSudokuSolver());
     private SudokuBoard invalidBoard = new SudokuBoard(new BacktrackingSudokuSolver());
-    private FileSudokuBoardDao fileSudokuBoardDao;
+    FileSudokuBoardDao fileSudokuBoardDao;
 
     @Test
     void filenameTest() throws DaoException {
@@ -35,6 +38,20 @@ class FileSudokuBoardDaoTest {
         try (Dao<SudokuBoard> fileDao = SudokuBoardDaoFactory.getFileDao("testFilename");
              Dao<SudokuBoard> invalidFileDao = SudokuBoardDaoFactory.getFileDao("")) {
             assertEquals(fileDao.read(), board);
+            assertThrows(OperationOnFileException.class, invalidFileDao::read);
+        }
+    }
+
+    @Test
+    void writeTwoTest() throws Exception {
+        var sudokuBoardList = new SudokuBoard[2];
+        sudokuBoardList[0] = board;
+        sudokuBoardList[1] = new SudokuBoard(new BacktrackingSudokuSolver());
+        try (Dao<SudokuBoard[]> fileTwoDao = SudokuBoardDaoFactory.getFileTwoDao("testFilename");
+             Dao<SudokuBoard[]> invalidFileDao = SudokuBoardDaoFactory.getFileTwoDao("")) {
+            fileTwoDao.write(sudokuBoardList);
+            assertEquals(fileTwoDao.read()[0].getNumberFromPosition(0,0), sudokuBoardList[0].getNumberFromPosition(0,0));
+            assertEquals(fileTwoDao.read()[1].getNumberFromPosition(0,0), sudokuBoardList[1].getNumberFromPosition(0,0));
             assertThrows(OperationOnFileException.class, invalidFileDao::read);
         }
     }

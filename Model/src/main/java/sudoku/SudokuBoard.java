@@ -102,6 +102,10 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         doListen = val;
     }
 
+    public boolean getListening() {
+        return doListen;
+    }
+
     private boolean checkBoard() {
         for (int i = 0; i < 9; i++) {
             if (!getColumn(i).verify() || !getRow(i).verify()) {

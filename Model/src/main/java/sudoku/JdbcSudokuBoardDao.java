@@ -1,21 +1,20 @@
 package sudoku;
 
+import java.io.IOException;
+import java.sql.*;
+import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.DaoException;
 
-import java.io.IOException;
-import java.sql.*;
-import java.util.ResourceBundle;
-
 public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     final static Logger logger = LoggerFactory.getLogger(JdbcSudokuBoardDao.class);
-    private String fileName;
+    private final String fileName;
     private static final String URL = "jdbc:postgresql://localhost:5432/Sudoku";
     private static final String DRIVER = "org.postgresql.Driver";
     private Statement JDBC_STATEMENT;
-    private Connection connection;
-    private ResourceBundle bundle = ResourceBundle.getBundle("exceptions");
+    private final Connection connection;
+    private final ResourceBundle bundle = ResourceBundle.getBundle("exceptions");
 
     public String getFileName() {
         return fileName;
@@ -38,7 +37,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         try {
             JDBC_STATEMENT = connection.createStatement();
             String createB =
-                    "Create Table BOARDS(BOARD_ID int PRIMARY KEY GENERATED ALWAYS AS IDENTITY, BOARD_NAME varchar(40) NOT NULL)";
+                    "Create Table BOARDS(BOARD_ID int PRIMARY KEY GENERATED ALWAYS AS IDENTITY, " +
+                            "BOARD_NAME varchar(40) NOT NULL)";
             JDBC_STATEMENT.executeUpdate(createB);
             logger.debug(bundle.getString("tab.creation"));
             JDBC_STATEMENT = connection.createStatement();

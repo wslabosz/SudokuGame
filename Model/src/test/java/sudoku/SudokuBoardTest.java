@@ -187,4 +187,12 @@ class SudokuBoardTest {
         SudokuBoard clone = sudoku.deepClone();
         assertEquals(sudoku.getSudokuField(0, 0), clone.getSudokuField(0, 0));
     }
+
+    @Test
+    public void isListeningTest() {
+        sudoku.setListening(true);
+        assertTrue(sudoku.getListening());
+        sudoku.setListening(false);
+        assertFalse(sudoku.getListening());
+    }
 }

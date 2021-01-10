@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.DaoException;
 import sudoku.exceptions.OperationOnFileException;
-
 import java.io.*;
 
 public class FileTwoSudokuBoardDao implements Dao<SudokuBoard[]> {
