@@ -24,9 +24,8 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
     private final transient SudokuSolver sudokuSolver;
     private boolean doListen = true;
     private Difficulty difficulty;
-    private final String name;
 
-    public SudokuBoard(SudokuSolver sudokuSolver, Difficulty difficulty, String boardName) {
+    public SudokuBoard(SudokuSolver sudokuSolver, Difficulty difficulty) {
         board = Arrays.asList(new SudokuField[SIZE * SIZE]);
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -36,10 +35,9 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
         }
         this.sudokuSolver = sudokuSolver;
         this.difficulty = difficulty;
-        this.name = boardName;
     }
 
-    public SudokuBoard(SudokuSolver sudokuSolver, String boardName) {
+    public SudokuBoard(SudokuSolver sudokuSolver) {
         board = Arrays.asList(new SudokuField[SIZE * SIZE]);
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -48,7 +46,6 @@ public class SudokuBoard implements Serializable, PropertyChangeListener, Clonea
             }
         }
         this.sudokuSolver = sudokuSolver;
-        name = boardName;
     }
 
     public Difficulty getDifficulty() {
