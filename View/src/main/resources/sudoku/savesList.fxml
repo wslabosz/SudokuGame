@@ -2,17 +2,26 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudoku.savesController">
+<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudoku.loadController">
    <children>
-      <TitledPane animated="false" text="untitled">
+      <TitledPane animated="false" text="%chooseFilenamePrompt">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="300.0" prefWidth="300.0">
                <children>
                   <ScrollPane layoutX="5.0" layoutY="5.0" prefHeight="290.0" prefWidth="290.0">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
+                      <AnchorPane layoutX="5.0" layoutY="5.0" minHeight="0.0" minWidth="0.0" prefHeight="285.0" prefWidth="285.0">
+                           <children>
+                              <ListView fx:id="listSavesView" layoutX="5.0" layoutY="5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="278.0" prefWidth="210.0" />
+                              <Button fx:id="loadButton" layoutX="220.0" layoutY="15.0" mnemonicParsing="false" onAction="#load" text="%loadButton">
+                                 <font>
+                                    <Font name="System Bold" size="12.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                        </AnchorPane>
                     </content>
                   </ScrollPane>
                </children>

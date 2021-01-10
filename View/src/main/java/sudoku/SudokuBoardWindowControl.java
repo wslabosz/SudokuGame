@@ -216,13 +216,13 @@ public class SudokuBoardWindowControl implements Initializable {
         inputStage.initOwner(anchorPane.getScene().getWindow());
         inputStage.setScene(scene);
         inputStage.showAndWait();
-        String filename = loader.<savesController>getController().getInput();
+        String filename = loader.<saveController>getController().getInput();
         if (filename != null) {
             try {
                 try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(filename);
                      Dao<SudokuBoard> jdbcDaoInitial = SudokuBoardDaoFactory.getJdbcDao("initial" + filename)) {
                     jdbcDao.write(board);
-                    jdbcDao.write(initialState);
+                    jdbcDaoInitial.write(initialState);
                 }
             } catch (Exception e) {
                 logger.error(e.getLocalizedMessage(), e);
@@ -241,11 +241,11 @@ public class SudokuBoardWindowControl implements Initializable {
             logger.error(ex.getLocalizedMessage(), ex);
         }
         Stage readStage = new Stage();
-        readStage.setTitle(resourceBundle.getString("saveButton"));
+        readStage.setTitle(resourceBundle.getString("loadButton"));
         readStage.initOwner(anchorPane.getScene().getWindow());
         readStage.setScene(scene);
         readStage.showAndWait();
-        String filename = loader.<savesController>getController().getInput();
+        String filename = loader.<loadController>getController().getFilename();
         if (filename != null) {
             try {
                 try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(filename);
