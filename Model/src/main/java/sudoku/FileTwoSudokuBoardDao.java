@@ -1,10 +1,14 @@
 package sudoku;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.DaoException;
 import sudoku.exceptions.OperationOnFileException;
-import java.io.*;
 
 public class FileTwoSudokuBoardDao implements Dao<SudokuBoard[]> {
     private static final Logger logger = LoggerFactory.getLogger(FileTwoSudokuBoardDao.class);
@@ -41,7 +45,7 @@ public class FileTwoSudokuBoardDao implements Dao<SudokuBoard[]> {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
 
     }
 }

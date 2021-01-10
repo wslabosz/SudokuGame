@@ -1,20 +1,25 @@
 package sudoku;
 
 import java.io.IOException;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ResourceBundle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sudoku.exceptions.DaoException;
 
 public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
-    final static Logger logger = LoggerFactory.getLogger(JdbcSudokuBoardDao.class);
     private final String fileName;
     private static final String URL = "jdbc:postgresql://localhost:5432/Sudoku";
     private static final String DRIVER = "org.postgresql.Driver";
-    private Statement JDBC_STATEMENT;
+    private Statement jdbcStatement;
     private final Connection connection;
     private final ResourceBundle bundle = ResourceBundle.getBundle("exceptions");
+    private final Logger logger = LoggerFactory.getLogger(JdbcSudokuBoardDao.class);
 
     public String getFileName() {
         return fileName;
@@ -35,17 +40,18 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
 
     private void setupTables() {
         try {
-            JDBC_STATEMENT = connection.createStatement();
+            jdbcStatement = connection.createStatement();
             String createB =
-                    "Create Table BOARDS(BOARD_ID int PRIMARY KEY GENERATED ALWAYS AS IDENTITY, " +
-                            "BOARD_NAME varchar(40) NOT NULL)";
-            JDBC_STATEMENT.executeUpdate(createB);
+                    "Create Table BOARDS(BOARD_ID int PRIMARY KEY GENERATED ALWAYS AS IDENTITY, "
+                            + "BOARD_NAME varchar(40) NOT NULL)";
+            jdbcStatement.executeUpdate(createB);
             logger.debug(bundle.getString("tab.creation"));
-            JDBC_STATEMENT = connection.createStatement();
+            jdbcStatement = connection.createStatement();
             String createF =
-                    "Create Table FIELDS(X int NOT NULL, Y int NOT NULL, VAL int NOT NULL," +
-                            " BOARD_ID int, FOREIGN KEY (BOARD_ID) REFERENCES BOARDS (BOARD_ID) ON UPDATE CASCADE ON DELETE CASCADE )";
-            JDBC_STATEMENT.executeUpdate(createF);
+                    "Create Table FIELDS(X int NOT NULL, Y int NOT NULL, VAL int NOT NULL,"
+                            + " BOARD_ID int, FOREIGN KEY (BOARD_ID) "
+                            + "REFERENCES BOARDS (BOARD_ID) ON UPDATE CASCADE ON DELETE CASCADE )";
+            jdbcStatement.executeUpdate(createF);
             logger.debug(bundle.getString("tab.creation"));
         } catch (SQLException e) {
             logger.warn(bundle.getString("tab.error"));
@@ -58,12 +64,14 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         SudokuBoard sudokuBoard = new SudokuBoard(new BacktrackingSudokuSolver());
         ResultSet resultSet;
         ResultSet resultSetVal;
-        int x, y, value;
+        int x;
+        int y;
+        int value;
         int id;
         try {
-            JDBC_STATEMENT = connection.createStatement();
-            preparedStatement = connection.prepareStatement
-                    ("SELECT BOARDS.BOARD_ID from BOARDS where BOARDS.BOARD_NAME=?");
+            jdbcStatement = connection.createStatement();
+            preparedStatement = connection.prepareStatement(
+                    "SELECT BOARDS.BOARD_ID from BOARDS where BOARDS.BOARD_NAME=?");
             preparedStatement.setString(1, fileName);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -73,8 +81,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 throw new IOException(bundle.getString("io.error"));
             }
             logger.debug(bundle.getString("data.read"));
-            preparedStatement = connection.prepareStatement
-                    ("SELECT FIELDS.X, FIELDS.Y, FIELDS.VAL from FIELDS where FIELDS.BOARD_ID=?");
+            preparedStatement = connection.prepareStatement(
+                    "SELECT FIELDS.X, FIELDS.Y, FIELDS.VAL from FIELDS where FIELDS.BOARD_ID=?");
             preparedStatement.setInt(1, id);
             resultSetVal = preparedStatement.executeQuery();
             while (resultSetVal.next()) {
@@ -96,7 +104,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
         int id;
         PreparedStatement preparedStatement;
         try {
-            JDBC_STATEMENT = connection.createStatement();
+            jdbcStatement = connection.createStatement();
             String insert = "INSERT INTO BOARDS (BOARD_NAME) VALUES (?)";
             preparedStatement = connection.prepareStatement(insert);
             preparedStatement.setString(1, fileName);
@@ -107,8 +115,8 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
             logger.error(bundle.getString("io.error"), e);
         }
         try {
-            preparedStatement = connection.prepareStatement
-                    ("SELECT BOARDS.BOARD_ID from BOARDS where BOARDS.BOARD_NAME=?");
+            preparedStatement = connection.prepareStatement(
+                    "SELECT BOARDS.BOARD_ID from BOARDS where BOARDS.BOARD_NAME=?");
             preparedStatement.setString(1, fileName);
             idSet = preparedStatement.executeQuery();
             if (idSet.next()) {
@@ -117,7 +125,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
                 logger.error(bundle.getString("io.error"));
                 throw new IOException(bundle.getString("io.error"));
             }
-            JDBC_STATEMENT = connection.createStatement();
+            jdbcStatement = connection.createStatement();
             String insert = "INSERT INTO FIELDS VALUES(?, ?, ?, ?)";
             preparedStatement = connection.prepareStatement(insert);
             preparedStatement.setInt(4, id);
@@ -139,7 +147,7 @@ public class JdbcSudokuBoardDao implements Dao<SudokuBoard> {
     @Override
     public void close() {
         try {
-            JDBC_STATEMENT.close();
+            jdbcStatement.close();
             connection.close();
         } catch (SQLException e) {
             logger.error(bundle.getString("connection.error"));
