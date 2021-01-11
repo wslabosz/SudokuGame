@@ -1,13 +1,10 @@
 package sudoku;
 
 import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.function.Try;
 import sudoku.exceptions.DaoException;
 import sudoku.exceptions.OperationOnFileException;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,7 +16,7 @@ class FileSudokuBoardDaoTest {
     FileSudokuBoardDao fileSudokuBoardDao;
 
     @Test
-    void filenameTest() throws DaoException {
+    void filenameTest() {
         assertThrows(DaoException.class, () -> fileSudokuBoardDao = new FileSudokuBoardDao(null));
     }
 

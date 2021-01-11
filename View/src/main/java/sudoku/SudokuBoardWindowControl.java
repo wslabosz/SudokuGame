@@ -203,7 +203,7 @@ public class SudokuBoardWindowControl implements Initializable {
         return change;
     }
 
-    public void saveGame(ActionEvent actionEvent) throws DatabaseException, ApplicationException {
+    public void saveGame(ActionEvent actionEvent) throws DatabaseException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("input.fxml"), resourceBundle);
         Scene scene = null;
         try {
@@ -216,7 +216,7 @@ public class SudokuBoardWindowControl implements Initializable {
         inputStage.initOwner(anchorPane.getScene().getWindow());
         inputStage.setScene(scene);
         inputStage.showAndWait();
-        String filename = loader.<saveController>getController().getInput();
+        String filename = loader.<SaveController>getController().getInput();
         if (filename != null) {
             try {
                 try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(filename);
@@ -245,7 +245,7 @@ public class SudokuBoardWindowControl implements Initializable {
         readStage.initOwner(anchorPane.getScene().getWindow());
         readStage.setScene(scene);
         readStage.showAndWait();
-        String filename = loader.<loadController>getController().getFilename();
+        String filename = loader.<LoadController>getController().getFilename();
         if (filename != null) {
             try {
                 try (Dao<SudokuBoard> jdbcDao = SudokuBoardDaoFactory.getJdbcDao(filename);

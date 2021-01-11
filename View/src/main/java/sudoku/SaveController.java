@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class saveController implements Initializable {
-    private static final Logger logger = LoggerFactory.getLogger(saveController.class);
+public class SaveController implements Initializable {
+    private static final Logger logger = LoggerFactory.getLogger(SaveController.class);
     ResourceBundle bundle;
     @FXML
     private TextField inputField;

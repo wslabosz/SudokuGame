@@ -1,6 +1,5 @@
 package sudoku;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,8 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class loadController implements Initializable {
-    private static final Logger logger = LoggerFactory.getLogger(saveController.class);
+public class LoadController implements Initializable {
+    private static final Logger logger = LoggerFactory.getLogger(SaveController.class);
     public ListView listSavesView;
     public Button loadButton;
     ResourceBundle resourceBundle;
@@ -86,6 +85,4 @@ public class loadController implements Initializable {
         logger.error(resourceBundle.getString("loadFailed"));
         return null;
     }
-
-
 }
